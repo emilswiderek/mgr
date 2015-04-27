@@ -10,12 +10,12 @@ def main():
 
     breathFunction = BreathGen.generateProcess()
     HeartGen.setBreathFunction(breathFunction)
-    HeartGen.setResponseFunction(getResponseFunction('sinus'))
+    HeartGen.setResponseFunction(getResponseFunction('forwarding'))
     heartFunction = HeartGen.generateProcess()
     print("Breath phase:".ljust(20), "Heart phase:".ljust(20))
     for x in range(0, len(breathFunction)):
         print(str(breathFunction[x]).ljust(20), str(heartFunction[x]).ljust(20))
-
+# @todo make t/t0 for phase!!
 
 def getResponseFunction(name):
     # @todo set as parameter name of response function

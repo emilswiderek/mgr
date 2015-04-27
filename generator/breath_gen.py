@@ -9,15 +9,15 @@ class BreathGenerator(Generator):
         :return: breath phase
         """
         if self.phase_iterator == -1:  # On initialisation both oscillators have phase 0
-            self.phase_iterator = 0.0
-            return 0.0
+            self.phase_iterator = 0
+            return 0
 
-        self.phase_iterator = (self.phase_iterator + self.generation_step)
-        if self.phase_iterator >= self.generation_step*hp.steps_in_phase:
-            self.phase_iterator = 0.0
+        self.phase_iterator += 1
+        if self.phase_iterator >= hp.breath_period:
+            self.phase_iterator = 0
         return self.phase_iterator
 
     def generateProcess(self):
-        for x in np.arange(0, hp.steps_in_phase, self.generation_step):
+        for x in range(0, hp.breath_period*hp.number_of_breaths):
             self.process.append(self.generate())
         return self.process
