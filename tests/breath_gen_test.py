@@ -13,8 +13,8 @@ class TestBreathGen(unittest.TestCase):
     def test_generateProcess(self):
         breathgen = bg.BreathGenerator()
         breathFunction = breathgen.generateProcess()
-        self.assertEqual(breathFunction[0], breathFunction[hp.steps_in_phase], "Breafth function has incorrect intervals")
-        self.assertEqual(len(breathFunction), hp.steps_in_phase*hp.number_of_breaths, "Lenghts doesnt match")
+        self.assertEqual(breathFunction[0], breathFunction[hp.breath_period], "Breath function has incorrect intervals")
+        self.assertEqual(len(breathFunction), hp.breath_period*hp.number_of_breaths, "Lengths doesnt match")
 if __name__ == '__main__':
     unittest.main()
 

@@ -1,5 +1,4 @@
 import generator.helper as hp
-import numpy as np
 from generator.generator import Generator
 
 class BreathGenerator(Generator):
