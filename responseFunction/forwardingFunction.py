@@ -8,4 +8,4 @@ class ForwardingFunction(ResponseFunction):
         self.forward_step = 4
 
     def getResponse(self, phase):
-        return phase + self.forward_step
+        return self.forward_step

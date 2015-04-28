@@ -8,4 +8,4 @@ class SinusFunction(ResponseFunction):
 
     def getResponse(self, phase):
         global max_amplitude
-        return phase + self.max_amplitude*math.sin(phase)
+        return self.max_amplitude*math.sin(phase)
