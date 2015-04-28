@@ -2,7 +2,6 @@
 import unittest
 import generator.helper as hp
 from responseFunction.forwardingFunction import ForwardingFunction
-import matplotlib
 import matplotlib.pyplot as plt
 
 class TestForwardingFunction(unittest.TestCase):
