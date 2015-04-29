@@ -1,5 +1,6 @@
 # test if distances between breaths are equal
 import unittest
+import math
 import generator.helper as hp
 from responseFunction.sinusFunction import SinusFunction
 import matplotlib.pyplot as plt
@@ -9,17 +10,21 @@ import numpy as np
 
 class TestSinusFunction(unittest.TestCase):
     def test_response(self):
-        val = random.uniform(0.0, 1.0)
+        val = random.randrange(0, hp.heart_period)
         response_function = SinusFunction()
-        self.assertEqual(response_function.max_amplitude*cmath.sin(val), response_function.getResponse(val), "Sinus function failed")
+        self.assertAlmostEquals(response_function.max_amplitude*cmath.sin(math.pi*val/hp.heart_period*2), response_function.getResponse(val), "Sinus function failed")
 
     def test_entireSpectrumResponseShow(self):
         response_function = SinusFunction()
-        spectrum = list(np.arange(0,1,1/hp.breath_period))
+        spectrum = list(range(0, hp.breath_period))
         spectrum_response = []
-        for x in spectrum: # @todo check this test, add x scale to plots
+        spectrum_normalised = []
+
+        for x in spectrum:
             spectrum_response.append(response_function.getResponse(x))
-        plt.plot(spectrum_response)
+            spectrum_normalised.append(x/hp.breath_period)
+
+        plt.plot(spectrum_normalised, spectrum_response)
         plt.show()
 
 if __name__ == '__main__':
