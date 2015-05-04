@@ -6,7 +6,6 @@ from responseFunction.sinusFunction import SinusFunction
 import matplotlib.pyplot as plt
 import cmath
 import random
-import numpy as np
 
 class TestSinusFunction(unittest.TestCase):
     def test_response(self):
