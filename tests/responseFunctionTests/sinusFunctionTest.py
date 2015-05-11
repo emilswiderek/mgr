@@ -15,13 +15,13 @@ class TestSinusFunction(unittest.TestCase):
 
     def test_entireSpectrumResponseShow(self):
         response_function = SinusFunction()
-        spectrum = list(range(0, hp.breath_period))
+        spectrum = list(range(0, hp.heart_period))
         spectrum_response = []
         spectrum_normalised = []
 
         for x in spectrum:
             spectrum_response.append(response_function.getResponse(x))
-            spectrum_normalised.append(x/hp.breath_period)
+            spectrum_normalised.append(x/hp.heart_period)
 
         plt.plot(spectrum_normalised, spectrum_response)
         plt.show()
