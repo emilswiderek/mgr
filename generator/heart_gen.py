@@ -7,6 +7,10 @@ class HeartGenerator(Generator):
     responseFunction = False
     breathPhase = 0
 
+    def __init__(self):
+        Generator.__init__(self)
+        self.phase_transition_curve = []
+
     def generate(self):
         """
         :return: heart phase
@@ -16,7 +20,9 @@ class HeartGenerator(Generator):
             return 0
 
         if self.breathPhase == hp.take_breath_in_phase:
+            old_phase = self.phase_iterator
             self.phase_iterator += self.responseFunction.getResponse(self.phase_iterator)
+            self.phase_transition_curve.append({old_phase: self.phase_iterator})
         else:
             self.phase_iterator += 1
 
@@ -29,7 +35,7 @@ class HeartGenerator(Generator):
         for x in range(0, hp.breath_period*hp.number_of_breaths):
             self.breathPhase = self.breathFunction[x]
             self.process.append(self.generate())
-        return self.process
+        return self.process, self.phase_transition_curve
 
     def setBreathFunction(self, breathFunction):
         self.breathFunction = breathFunction

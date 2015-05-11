@@ -12,7 +12,7 @@ def main():
     breathFunction = BreathGen.generateProcess()
     HeartGen.setBreathFunction(breathFunction)
     HeartGen.setResponseFunction(getResponseFunction('sinus'))
-    heartFunction = HeartGen.generateProcess()
+    heartFunction, phase_response_curve = HeartGen.generateProcess()
 
     breath_and_heart_printer(breathFunction, heartFunction)
     phaseAnalyzer = PhaseDifferences()
@@ -20,7 +20,8 @@ def main():
     print("Results: ")
     print(results)
     print(indexes)
-
+    print("Map:")
+    print(phase_response_curve)
 
 def getResponseFunction(name):
     # @todo set as parameter name of response function
