@@ -25,6 +25,14 @@ def main():
     #print(results)
     #print(indexes)
 
+    plt.suptitle("Mapa powrotu")
+    plt.title("Faza serca po oddechu od fazy przed oddechem")
+    plt.grid(True)
+    plt.ylabel("Faza po oddechu")
+    plt.xlabel("Faza przed oddechem")
+    plt.plot(results, next_step, 'g^')
+    plt.show()
+
     plt.suptitle("Faza serca")
     plt.title("T/T0: "+str(hp.T_to_T0))
     plt.xlabel("Czas 1 = 1 okres bicia serca")
@@ -50,13 +58,7 @@ def main():
     plt.plot(indexes/hp.breath_period, results, 'b')
     plt.show()
 
-    plt.suptitle("Mapa powrotu")
-    plt.title("Faza serca po oddechu od fazy przed oddechem")
-    plt.grid(True)
-    plt.ylabel("Faza po oddechu")
-    plt.xlabel("Faza przed oddechem")
-    plt.plot(results, next_step, 'g^')
-    plt.show()
+
 
 def getResponseFunction(name):
     # @todo set as parameter name of response function

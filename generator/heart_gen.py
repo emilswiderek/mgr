@@ -16,7 +16,7 @@ class HeartGenerator(Generator):
             return 0
 
         if self.breathPhase == hp.take_breath_in_phase:
-            self.phase_iterator += self.responseFunction.getResponse(self.phase_iterator)
+            self.phase_iterator += self.responseFunction.getResponse(self.phase_iterator)*hp.heart_period
         else:
             self.phase_iterator += 1
 

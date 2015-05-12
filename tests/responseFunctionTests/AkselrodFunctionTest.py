@@ -6,11 +6,9 @@ import random
 
 class TestAkselrodFunction(unittest.TestCase):
     def test_response(self):
-        val = random.randrange(0, hp.heart_period/2)
         val2 = random.randrange(hp.heart_period/2, hp.heart_period)
         response_function = Akselrod()
-        self.assertAlmostEquals(response_function.forward_percentage*val, response_function.getResponse(val), "Akselrod function first half failed")
-        self.assertAlmostEquals(-response_function.backward_percentage*val2, response_function.getResponse(val2), "Akselrod function second half failed")
+        self.assertAlmostEquals(0, response_function.getResponse(0), "Akselrod function first half failed")
 
 
     def test_entireSpectrumResponseShow(self):

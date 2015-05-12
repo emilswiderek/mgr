@@ -4,11 +4,15 @@ import generator.helper as hp
 class Akselrod(ResponseFunction):
 
     def __init__(self):
-        self.forward_percentage = 0.1
-        self.backward_percentage = 0.4
+        self.d = 0.09
+        self.omega = 0.45
+        self.a = 0.37
+
+
 
     def getResponse(self, phase):
-        if hp.heart_period/2 > phase:
-            return self.forward_percentage * phase
+        normalised_phase = phase/hp.heart_period
+        if self.omega > normalised_phase:
+            return (self.d/self.omega) * normalised_phase
         else:
-            return - self.backward_percentage * phase
+            return (self.a/(1.-self.omega))*(normalised_phase - 1.)
