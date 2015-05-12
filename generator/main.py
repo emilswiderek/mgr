@@ -15,12 +15,12 @@ def main():
 
     breathFunction = BreathGen.generateProcess()
     HeartGen.setBreathFunction(breathFunction)
-    HeartGen.setResponseFunction(getResponseFunction('akselrod'))
+    HeartGen.setResponseFunction(getResponseFunction('forwarding'))
     heartFunction = HeartGen.generateProcess()
 
     bind = bind_breath_and_heart(breathFunction, heartFunction)
     phaseAnalyzer = PhaseDifferences()
-    indexes, results, next_step = phaseAnalyzer.analyze(breathFunction, heartFunction)
+    indexes, results, previous_step = phaseAnalyzer.analyze(breathFunction, heartFunction)
     #print("Results: ")
     #print(results)
     #print(indexes)
@@ -30,7 +30,7 @@ def main():
     plt.grid(True)
     plt.ylabel("Faza po oddechu")
     plt.xlabel("Faza przed oddechem")
-    plt.plot(results, next_step, 'g^')
+    plt.plot(previous_step, results, 'g^')
     plt.show()
 
     plt.suptitle("Faza serca")
@@ -55,7 +55,7 @@ def main():
     plt.grid(True)
     plt.xlabel("Czas 1 = 1 okres bicia serca")
     plt.ylabel("Faza")
-    plt.plot(indexes/hp.breath_period, results, 'b')
+    plt.plot(indexes/hp.breath_period, previous_step, 'b')
     plt.show()
 
 

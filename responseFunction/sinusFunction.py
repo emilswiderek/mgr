@@ -4,7 +4,7 @@ import generator.helper as hp
 import math
 
 class SinusFunction(ResponseFunction):
-    max_amplitude = 3
+    max_amplitude = 0.3
 
     def getResponse(self, phase):
         global max_amplitude
