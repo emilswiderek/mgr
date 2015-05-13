@@ -13,7 +13,7 @@ class TestHeartGen(unittest.TestCase):
         heartgen.breathPhase = hp.take_breath_in_phase
         response_function = ff.ForwardingFunction()
         heartgen.setResponseFunction(ff.ForwardingFunction())
-        self.assertEqual(heartgen.generate(), val+response_function.getResponse(val), "Heart generator doesnt call for response function when needed!")
+        self.assertEqual(heartgen.generate(), val+response_function.getResponse(val)*hp.heart_period, "Heart generator doesnt call for response function when needed!")
 
     def test_generateProcess(self):
         pass

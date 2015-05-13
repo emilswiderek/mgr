@@ -9,8 +9,7 @@ class TestForwardingFunction(unittest.TestCase):
     def test_response(self):
         val = 1
         response_function = ForwardingFunction()
-        self.assertEqual(response_function.forward_step, response_function.getResponse(val),
-                         "Forwarding function failed")
+        self.assertEqual(response_function.forward_step, response_function.getResponse(val),"Forwarding function failed")
 
     def test_entireSpectrumResponseShow(self):
         response_function = ForwardingFunction()
@@ -20,6 +19,10 @@ class TestForwardingFunction(unittest.TestCase):
         for x in spectrum:
             spectrum_response.append(response_function.getResponse(x))
             spectrum_normalised.append(x/hp.heart_period)
+
+        plt.title("Funkcja przyrostu fazy")
+        plt.xlabel("Faza rytmu serca")
+        plt.ylabel("Zmiana fazy rytmu serca")
         plt.plot(spectrum_normalised, spectrum_response)
         plt.show()
 

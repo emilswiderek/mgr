@@ -23,6 +23,9 @@ class TestSinusFunction(unittest.TestCase):
             spectrum_response.append(response_function.getResponse(x))
             spectrum_normalised.append(x/hp.heart_period)
 
+        plt.title("Sinus")
+        plt.xlabel("Faza rytmu serca")
+        plt.ylabel("Zmiana fazy rytmu serca")
         plt.plot(spectrum_normalised, spectrum_response)
         plt.show()
 

@@ -13,11 +13,11 @@ def run_tests():
     print("OK! \n---")
 
     print("Sinus function test: \n---")
-    #test1 = sintest.TestSinusFunction()
-    #test1.test_response()
-    #test1.test_entireSpectrumResponseShow()
-    #print("OK! \n---")
-    print("Omitted \n")
+    test1 = sintest.TestSinusFunction()
+    test1.test_response()
+    test1.test_entireSpectrumResponseShow()
+    print("OK! \n---")
+    #print("Omitted \n")
 
     print("Akselrod function test: \n---")
     test1 = AkselrodTest.TestAkselrodFunction()

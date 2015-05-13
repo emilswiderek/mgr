@@ -4,9 +4,9 @@ from responseFunction.forwardingFunction import ForwardingFunction
 from responseFunction.sinusFunction import SinusFunction
 from analysis.phaseDifferences import PhaseDifferences
 from responseFunction.Akselrod import Akselrod
-import matplotlib.pyplot as plt
 import numpy as np
 import generator.helper as hp
+from analysis.plotter import Plotter
 
 
 def main():
@@ -15,7 +15,7 @@ def main():
 
     breathFunction = BreathGen.generateProcess()
     HeartGen.setBreathFunction(breathFunction)
-    HeartGen.setResponseFunction(getResponseFunction('forwarding'))
+    HeartGen.setResponseFunction(getResponseFunction('sinus'))
     heartFunction = HeartGen.generateProcess()
 
     bind = bind_breath_and_heart(breathFunction, heartFunction)
@@ -25,38 +25,20 @@ def main():
     #print(results)
     #print(indexes)
 
-    plt.suptitle("Mapa powrotu")
-    plt.title("Faza serca po oddechu od fazy przed oddechem")
-    plt.grid(True)
-    plt.ylabel("Faza po oddechu")
-    plt.xlabel("Faza przed oddechem")
-    plt.plot(previous_step, results, 'g^')
-    plt.show()
+    plotter = Plotter()
 
-    plt.suptitle("Faza serca")
-    plt.title("T/T0: "+str(hp.T_to_T0))
-    plt.xlabel("Czas 1 = 1 okres bicia serca")
-    plt.ylabel("Faza")
-    plt.grid(True)
-    plt.plot(bind[0], bind[2], 'b')
-    plt.show()
+    # Mapa powrotu:
+    plotter.map(previous_step, results)
 
-    plt.suptitle("Faza serca oraz oddechu")
-    plt.title("T/T0: "+str(hp.T_to_T0))
-    plt.xlabel("Czas 1 = 1 okres bicia serca")
-    plt.ylabel("Faza")
-    plt.ylim(-0.00001, 0.00001)
-    plt.grid(True)
-    plt.plot(bind[0], bind[1], 'b|', bind[0], bind[2], 'g|', markersize=300)
-    plt.show()
+    #Faza rytmu serca:
+    plotter.heart_rate(bind[0], bind[2])
 
-    plt.suptitle("Faza serca")
-    plt.title("W momencie wystąpienia oddechu")
-    plt.grid(True)
-    plt.xlabel("Czas 1 = 1 okres bicia serca")
-    plt.ylabel("Faza")
-    plt.plot(indexes/hp.breath_period, previous_step, 'b')
-    plt.show()
+    #Faza rytmu serca i oddechu:
+    plotter.heart_and_breath_rate(bind[0], bind[1], bind[2])
+
+    #Faza rytmu serca w momencie wystąpienia oddechu
+    plotter.heart_when_breath(indexes, previous_step)
+
 
 
 

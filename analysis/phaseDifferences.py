@@ -6,6 +6,12 @@ import numpy as np
 class PhaseDifferences():
 
     def analyze(self, breath, heart):
+        """
+
+        :param breath:
+        :param heart:
+        :return: Timesteps, heart_phase_after, heart_phase_before
+        """
         snapshots = []
         previous_step = []
         ar = np.array(breath)
@@ -16,4 +22,4 @@ class PhaseDifferences():
                 previous_step.append(heart[x-1]/hp.heart_period)
             else:
                 previous_step.append(0)
-        return indexes[0], snapshots, previous_step
+        return indexes[0]/hp.breath_period, snapshots, previous_step

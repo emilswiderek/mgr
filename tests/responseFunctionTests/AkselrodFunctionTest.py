@@ -6,9 +6,9 @@ import random
 
 class TestAkselrodFunction(unittest.TestCase):
     def test_response(self):
-        val2 = random.randrange(hp.heart_period/2, hp.heart_period)
+        #val2 = random.randrange(hp.heart_period/2, hp.heart_period)
         response_function = Akselrod()
-        self.assertAlmostEquals(0, response_function.getResponse(0), "Akselrod function first half failed")
+        self.assertAlmostEquals(0, response_function.getResponse(0), "Akselrod function zero test failed")
 
 
     def test_entireSpectrumResponseShow(self):
@@ -21,6 +21,9 @@ class TestAkselrodFunction(unittest.TestCase):
             spectrum_response.append(response_function.getResponse(x)/hp.heart_period)
             spectrum_normalised.append(x/hp.heart_period)
 
+        plt.title("Akselrod")
+        plt.xlabel("Faza rytmu serca")
+        plt.ylabel("Zmiana fazy rytmu serca")
         plt.plot(spectrum_normalised, spectrum_response)
         plt.show()
 
