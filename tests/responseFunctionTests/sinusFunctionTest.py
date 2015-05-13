@@ -11,7 +11,7 @@ class TestSinusFunction(unittest.TestCase):
     def test_response(self):
         val = random.randrange(0, hp.heart_period)
         response_function = SinusFunction()
-        self.assertAlmostEquals(response_function.max_amplitude*cmath.sin(math.pi*val/hp.heart_period*2), response_function.getResponse(val), "Sinus function failed")
+        self.assertAlmostEquals(response_function.max_amplitude*cmath.sin(math.pi*val/hp.heart_period*2), response_function.getResponse(val), "Sinus function failed", 5)
 
     def test_entireSpectrumResponseShow(self):
         response_function = SinusFunction()
