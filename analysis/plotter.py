@@ -17,7 +17,8 @@ class Plotter():
         plt.grid(True)
         plt.ylabel("Faza rytmu serca po oddechu")
         plt.xlabel("Faza rytmu serca przed oddechem")
-        plt.plot(previous_step, results, 'g^')
+        plt.scatter(previous_step, results, c=results, s=70)
+        plt.gray()
         plt.show()
 
     def heart_rate(self, timesteps, heart_rate):

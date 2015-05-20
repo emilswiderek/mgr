@@ -1,3 +1,10 @@
 from generator import main
+from analysis.oneExtortionPeriodAnalysis import Analyzer
 
-main.main()
+# one period results:
+breath, heart = main.main()
+
+onePeriodAnalyzer = Analyzer(breath, heart)
+
+
+onePeriodAnalyzer.analyze()
