@@ -64,3 +64,13 @@ class Plotter():
         plt.ylabel("Faza")
         plt.plot(timesteps, phase, 'b')
         plt.show()
+
+    def plot_rr_sd(self, breath, av, sd):
+
+        plt.suptitle("Odchylenie std")
+        plt.title("Dla okresu rytmu serca: "+str(hp.heart_period))
+        plt.grid(True)
+        plt.xlabel("Okres oddechu")
+        plt.ylabel("Odchylenie std")
+        plt.errorbar(breath, av, sd, linestyle='None', marker='^')
+        plt.show()
