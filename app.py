@@ -2,22 +2,47 @@ from generator import main
 from analysis.oneExtortionPeriodAnalysis import Analyzer
 from generator.extortionSpectrum import ExtortionSpectrumGenerator
 from analysis.extortionSpectrumAnalysis import ExtortionSpectrumAnalyzer
+from generator.dataStorage import DataStorage
 
-# one period results:
-#breath, heart = main.main()
+import gc
 
-#onePeriodAnalyzer = Analyzer(breath, heart)
+# options:
+# 'gen_ext' - generate extortion spectrum and save it in the storage file
+# 'one_period' - generate and analyze data for one breath period
+# else - read from data storage and analyze spectrum
 
+option = 'gen_ext'
 
-#onePeriodAnalyzer.analyze()
+if option == 'one_period':
+    # one period results:
+    breath, heart = main.main()
 
+    onePeriodAnalyzer = Analyzer(breath, heart)
 
-# results for different extortion periods:
+    onePeriodAnalyzer.analyze()
 
-Generator = ExtortionSpectrumGenerator()
+elif option == 'gen_ext':
 
-results = Generator.generate()
+    # results for different extortion periods:
 
-ExtortionAnalyzer = ExtortionSpectrumAnalyzer()
+    Generator = ExtortionSpectrumGenerator()
 
-ExtortionAnalyzer.analyze(results)
+    results = Generator.generate()
+
+    storage = DataStorage()
+
+    storage.clear()
+
+    storage.store(results)
+
+    gc.collect()
+
+else:
+
+    ExtortionAnalyzer = ExtortionSpectrumAnalyzer()
+
+    storage = DataStorage()
+
+    results = storage.load()
+
+    ExtortionAnalyzer.analyze(results)

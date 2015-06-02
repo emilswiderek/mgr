@@ -3,13 +3,14 @@ from generator import helper as hp
 from analysis.plotter import Plotter
 import statistics
 
+
 class ExtortionSpectrumAnalyzer:
 
     def analyze(self, results):
         # breath rate and standard deviation
         container = {'br': [], 'sd': [], 'av': []}
         for row in results:
-            container['br'].append(row)
+            container['br'].append(int(row))
             mean, sd = self.analyze_step(results[row]['heart'])
             container['sd'].append(sd)
             container['av'].append(mean)
