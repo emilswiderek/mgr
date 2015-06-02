@@ -1,6 +1,9 @@
-__author__ = 'emil'
+from responseFunction.Akselrod import Akselrod
+from responseFunction.forwardingFunction import ForwardingFunction
+from responseFunction.sinusFunction import SinusFunction
 import generator.helper as hp
 from generator.generator import Generator
+
 
 class HeartGenerator(Generator):
     breathFunction = []
@@ -36,3 +39,10 @@ class HeartGenerator(Generator):
 
     def setResponseFunction(self, responseFunction):
         self.responseFunction = responseFunction
+
+    def getResponseFunction(self, name):
+        return {
+            'forwarding': ForwardingFunction(),
+            'sinus': SinusFunction(),
+            'akselrod': Akselrod(),
+        }[name]

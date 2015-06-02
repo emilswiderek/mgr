@@ -3,6 +3,7 @@ from responseFunction.responseFunction import ResponseFunction
 import generator.helper as hp
 import math
 
+
 class SinusFunction(ResponseFunction):
     max_amplitude = 0.3
 

@@ -8,6 +8,7 @@ breath_period = 1000
 # for extortion spectrum:
 min_breath_period = 100
 max_breath_period = 200
+response_function = 'sinus'
 
 
 def set_number_of_breaths(newVal):
@@ -61,3 +62,13 @@ def calculateTtoT0():
     """
     global T_to_T0
     T_to_T0 = heart_period / breath_period
+
+def set_response_function(name):
+    """
+
+    :param name:
+    :return:
+    """
+    global response_function
+    response_function = name
+

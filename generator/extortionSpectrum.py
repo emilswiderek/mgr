@@ -1,6 +1,8 @@
 __author__ = 'emil'
 from generator import helper as hp
-from generator import main
+from generator.breath_gen import BreathGenerator
+from generator.heart_gen import HeartGenerator
+
 
 class ExtortionSpectrumGenerator:
 
@@ -10,12 +12,19 @@ class ExtortionSpectrumGenerator:
 
     def generate(self):
         results = {}
+        BreathGen = BreathGenerator()
+        HeartGen = HeartGenerator()
+        HeartGen.setResponseFunction(HeartGen.getResponseFunction(hp.response_function))
 
         for x in range(self.min_breath, self.max_breath):
             hp.set_breath_period(x)
             hp.calculateTtoT0()
-            breath, heart = main.main()
-            results[x] = {'breath': breath, 'heart': heart}
+
+            breath = BreathGen.generateProcess()
+
+            HeartGen.setBreathFunction(breath)
+
+            results[x] = {'breath': breath, 'heart': HeartGen.generateProcess()}
 
             print("Generating "+str(x)+"/"+str(self.max_breath-1))
 
