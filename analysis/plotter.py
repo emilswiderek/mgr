@@ -4,7 +4,6 @@ import generator.helper as hp
 
 class Plotter():
 
-
     def map(self, previous_step, results):
         """
         Plots fi(n+1)(fi(n))
