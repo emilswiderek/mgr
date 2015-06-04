@@ -41,3 +41,6 @@ class DataStorage():
         """
         if os.path.isfile(self.filename):
             os.remove(self.filename)
+
+    def set_filename(self, name):
+        self.filename = name

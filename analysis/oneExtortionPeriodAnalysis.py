@@ -1,3 +1,5 @@
+from generator.dataStorage import DataStorage
+
 __author__ = 'emil'
 
 import numpy as np
@@ -37,11 +39,15 @@ class Analyzer:
     def analyze(self):
         phaseAnalyzer = PhaseDifferences()
 
+        storage = DataStorage()
+
         indexes, results, previous_step = phaseAnalyzer.analyze(self.breath, self.heart)
 
         plotter = Plotter()
 
         # Mapa powrotu:
+        storage.set_filename(str(hp.T_to_T0)+"_map.json")
+        storage.store({'previous_step': previous_step, 'next_step': results})
         plotter.map(previous_step, results)
 
         # Faza rytmu serca:

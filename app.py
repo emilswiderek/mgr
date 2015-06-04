@@ -14,6 +14,9 @@ import gc
 option = 'gen_ext'
 
 if option == 'one_period':
+
+    print("Generowanie i analiza dla 1 okresu oddechu")
+
     # one period results:
     breath, heart = main.main()
 
@@ -22,6 +25,8 @@ if option == 'one_period':
     onePeriodAnalyzer.analyze()
 
 elif option == 'gen_ext':
+
+    print("Generowanie")
 
     # results for different extortion periods:
 
@@ -35,9 +40,9 @@ elif option == 'gen_ext':
 
     storage.store(results)
 
-    gc.collect()
-
 else:
+
+    print("Analiza wyników")
 
     ExtortionAnalyzer = ExtortionSpectrumAnalyzer()
 
