@@ -1,8 +1,10 @@
+from analysis.MapAnalysis import MapAnalysis
 from generator import main
 from analysis.oneExtortionPeriodAnalysis import Analyzer
 from generator.extortionSpectrum import ExtortionSpectrumGenerator
 from analysis.extortionSpectrumAnalysis import ExtortionSpectrumAnalyzer
 from generator.dataStorage import DataStorage
+import generator.helper as hp
 
 import gc
 
@@ -11,7 +13,7 @@ import gc
 # 'one_period' - generate and analyze data for one breath period
 # else - read from data storage and analyze spectrum
 
-option = 'gen_ext'
+option = 'one_period_analyze'
 
 if option == 'one_period':
 
@@ -23,6 +25,19 @@ if option == 'one_period':
     onePeriodAnalyzer = Analyzer(breath, heart)
 
     onePeriodAnalyzer.analyze()
+
+elif option == 'one_period_analyze':
+
+    print("Analiza dla 1 okresu oddechu")
+
+    storage = DataStorage()
+
+    #map analysis:
+    storage.set_filename(str(hp.T_to_T0)+"_map.json")
+    map = storage.load()
+
+    mapAnalysis = MapAnalysis()
+    mapAnalysis.analyze(map)
 
 elif option == 'gen_ext':
 
