@@ -6,8 +6,6 @@ from analysis.extortionSpectrumAnalysis import ExtortionSpectrumAnalyzer
 from generator.dataStorage import DataStorage
 import generator.helper as hp
 
-import gc
-
 # options:
 # 'gen_ext' - generate extortion spectrum and save it in the storage file
 # 'one_period' - generate and analyze data for one breath period
@@ -33,7 +31,7 @@ elif option == 'one_period_analyze':
     storage = DataStorage()
 
     #map analysis:
-    storage.set_filename(str(hp.T_to_T0)+"_map.json")
+    storage.set_filename(str(hp.T_to_T0)+"_"+str(hp.response_function)+"_map.json")
     map = storage.load()
 
     mapAnalysis = MapAnalysis()

@@ -1,5 +1,9 @@
 __author__ = 'emil'
 import numpy as np
+import generator.helper as hp
+from analysis.plotter import Plotter
+from generator.heart_gen import HeartGenerator
+
 
 class MapAnalysis():
     """
@@ -7,6 +11,48 @@ class MapAnalysis():
 
     """
     def analyze(self, map):
-        fit = np.polyfit(map['previous_step'], map['next_step'], 5)
-        print(fit)
-        pass
+        fitted, fit = self.fit_polynomial(map)
+        plotter = Plotter()
+        plotter.plot_map_and_fit(map, fitted)
+        #zakładamy x*f(x):
+        x, y = self.divide_by_x(fitted)
+        spectrumX, spectrumY = self.get_response_function_spectrum()
+        plotter.plot_division_by_x(x, y, spectrumX, spectrumY)
+
+    def fit_polynomial(self, map):
+        """
+        fits the polynomial and returns
+        :param map:
+        :return:
+        """
+        fit = np.polyfit(map['previous_step'], map['next_step'], hp.map_fitting_degree)
+        y = np.polyval(fit, map['previous_step'])
+        fitting_curve = np.zeros(shape=(2, len(map['previous_step'])), )
+
+        for i in range(0, len(map['previous_step'])):
+            fitting_curve[0][i] = map['previous_step'][i]
+            fitting_curve[1][i] = y[i]
+
+        return fitting_curve, fit
+
+    def divide_by_x(self, fitted):
+        result = fitted[1]/fitted[0]
+        for i in range(0, len(fitted[0])):
+            if fitted[0][i] == 0:
+                result[i] = 0
+            else:
+                result[i] = fitted[1][i]/fitted[0][i]
+        return fitted[0], result
+
+    def get_response_function_spectrum(self):
+        heart_gen = HeartGenerator()
+        response_function = heart_gen.getResponseFunction(hp.response_function)
+        spectrum = list(range(0, hp.heart_period))
+        spectrum_response = []
+        spectrum_normalised = []
+
+        for x in spectrum:
+            spectrum_response.append(response_function.getResponse(x))
+            spectrum_normalised.append(x/hp.heart_period)
+
+        return spectrum_normalised, spectrum_response

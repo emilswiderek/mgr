@@ -83,3 +83,34 @@ class Plotter():
         plt.bar(breath, sd)
 
         plt.show()
+
+    def plot_map_and_fit(self, map, fit):
+
+        #plt.figure(1)
+
+        #plt.subplot(211)
+        plt.grid(True)
+        plt.xlabel("Faza rytmu serca przed oddechem")
+        plt.ylabel("Faza rytmu serca po oddechu")
+        plt.plot(map['previous_step'], map['next_step'], 'b^')
+
+        #plt.subplot(212)
+        #plt.grid(True)
+        #plt.xlabel("Faza rytmu serca przed oddechem")
+        #plt.ylabel("Dopasowanie")
+        plt.plot(fit[0], fit[1], 'g*')
+
+        plt.show()
+
+    def plot_division_by_x(self, x, y, sX, sY):
+        """
+
+        :param x:
+        :param y:
+        :param sX:
+        :param sY:
+        :return:
+        """
+        plt.plot(x, y, 'b^')
+        plt.plot(sX, sY, 'g*')
+        plt.show()

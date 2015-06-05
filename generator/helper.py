@@ -9,7 +9,7 @@ breath_period = 1000
 min_breath_period = 100
 max_breath_period = 200
 response_function = 'sinus'
-
+map_fitting_degree = 10
 
 def set_number_of_breaths(newVal):
     """
@@ -63,6 +63,7 @@ def calculateTtoT0():
     global T_to_T0
     T_to_T0 = heart_period / breath_period
 
+
 def set_response_function(name):
     """
 
@@ -72,3 +73,7 @@ def set_response_function(name):
     global response_function
     response_function = name
 
+
+def set_map_fitting_degree(value):
+    global map_fitting_degree
+    map_fitting_degree = int(value)

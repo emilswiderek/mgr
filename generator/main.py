@@ -9,7 +9,7 @@ def main():
 
     breathFunction = BreathGen.generateProcess()
     HeartGen.setBreathFunction(breathFunction)
-    HeartGen.setResponseFunction(HeartGen.getResponseFunction('sinus'))
+    HeartGen.setResponseFunction(HeartGen.getResponseFunction(hp.response_function))
     heartFunction = HeartGen.generateProcess()
 
     return breathFunction, heartFunction
