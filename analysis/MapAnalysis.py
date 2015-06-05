@@ -42,7 +42,7 @@ class MapAnalysis():
                 result[i] = 0
             else:
                 result[i] = fitted[1][i]/fitted[0][i]
-        return fitted[0], result
+        return fitted[0], result - np.mean(result)
 
     def get_response_function_spectrum(self):
         heart_gen = HeartGenerator()
