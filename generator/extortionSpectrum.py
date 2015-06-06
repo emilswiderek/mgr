@@ -1,5 +1,5 @@
 __author__ = 'emil'
-from generator import helper as hp
+from helpers import helper as hp
 from generator.breath_gen import BreathGenerator
 from generator.heart_gen import HeartGenerator
 

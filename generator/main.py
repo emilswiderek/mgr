@@ -1,6 +1,6 @@
 from generator.breath_gen import BreathGenerator
 from generator.heart_gen import HeartGenerator
-from generator import helper as hp
+from helpers import helper as hp
 
 
 def main():

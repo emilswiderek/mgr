@@ -1,9 +1,10 @@
 from responseFunction.Akselrod import Akselrod
 from responseFunction.forwardingFunction import ForwardingFunction
 from responseFunction.sinusFunction import SinusFunction
-import generator.helper as hp
+import helpers.helper as hp
 from generator.generator import Generator
 from responseFunction.halfSinusFunction import HalfSinusFunction
+
 
 class HeartGenerator(Generator):
     breathFunction = []

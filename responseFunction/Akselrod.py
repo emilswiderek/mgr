@@ -1,5 +1,5 @@
 from responseFunction.responseFunction import ResponseFunction
-import generator.helper as hp
+import helpers.helper as hp
 
 class Akselrod(ResponseFunction):
 

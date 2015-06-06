@@ -1,7 +1,9 @@
-import numpy as np
-from generator import helper as hp
-from analysis.plotter import Plotter
 import statistics
+
+import numpy as np
+
+from helpers import helper as hp
+from analysis.plotter import Plotter
 
 
 class ExtortionSpectrumAnalyzer:

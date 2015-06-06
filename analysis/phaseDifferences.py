@@ -1,6 +1,7 @@
 __author__ = 'emil'
-import generator.helper as hp
 import numpy as np
+
+import helpers.helper as hp
 
 
 class PhaseDifferences():

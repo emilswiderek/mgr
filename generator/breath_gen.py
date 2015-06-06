@@ -1,4 +1,4 @@
-import generator.helper as hp
+import helpers.helper as hp
 from generator.generator import Generator
 
 class BreathGenerator(Generator):

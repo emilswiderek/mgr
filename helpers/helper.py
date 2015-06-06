@@ -10,6 +10,8 @@ min_breath_period = 100
 max_breath_period = 200
 response_function = 'sinus'
 map_fitting_degree = 10
+show_plots = False
+
 
 def set_number_of_breaths(newVal):
     """
@@ -39,6 +41,7 @@ def set_heart_period(default):
         heart_period = int(breath_period * T_to_T0)
     else:
         heart_period = default
+
 
 def set_breath_period(newVal):
     global breath_period
@@ -77,3 +80,8 @@ def set_response_function(name):
 def set_map_fitting_degree(value):
     global map_fitting_degree
     map_fitting_degree = int(value)
+
+
+def set_show_plots(value):
+    global show_plots
+    show_plots = bool(value)

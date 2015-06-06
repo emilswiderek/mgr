@@ -1,5 +1,6 @@
 import json as js
 import os
+import helpers.storageHelper as shp
 
 
 class DataStorage():
@@ -18,7 +19,7 @@ class DataStorage():
         :param data:
         :return:
         """
-        file = open(self.filename, 'w+')
+        file = open(shp.get_storage_path()+"/"+self.filename, 'w+')
         js.dump(data, file)
         file.close()
 
@@ -28,7 +29,7 @@ class DataStorage():
 
         :return:
         """
-        file = open(self.filename, 'r')
+        file = open(shp.get_storage_path()+"/"+self.filename, 'r')
         data = js.load(file)
         file.close()
         return data

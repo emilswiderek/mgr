@@ -1,8 +1,10 @@
 import unittest
-import generator.helper as hp
-from responseFunction.Akselrod import Akselrod
+
 import matplotlib.pyplot as plt
-import random
+
+import helpers.helper as hp
+from responseFunction.Akselrod import Akselrod
+
 
 class TestAkselrodFunction(unittest.TestCase):
     def test_response(self):

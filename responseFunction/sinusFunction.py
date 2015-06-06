@@ -1,7 +1,8 @@
 __author__ = 'emil'
-from responseFunction.responseFunction import ResponseFunction
-import generator.helper as hp
 import math
+
+from responseFunction.responseFunction import ResponseFunction
+import helpers.helper as hp
 
 
 class SinusFunction(ResponseFunction):

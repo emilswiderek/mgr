@@ -3,7 +3,7 @@ from generator.dataStorage import DataStorage
 __author__ = 'emil'
 
 import numpy as np
-from generator import helper as hp
+from helpers import helper as hp
 from analysis.phaseDifferences import PhaseDifferences
 from analysis.plotter import Plotter
 
@@ -46,7 +46,7 @@ class Analyzer:
         plotter = Plotter()
 
         # Mapa powrotu:
-        storage.set_filename(str(hp.T_to_T0)+"_"+str(hp.response_function)+"_map.json")
+        storage.set_filename("map.json")
         storage.store({'previous_step': previous_step, 'next_step': results})
         plotter.map(previous_step, results)
 
@@ -56,5 +56,5 @@ class Analyzer:
         # Faza rytmu serca i oddechu:
         plotter.heart_and_breath_rate(self.bind[0], self.bind[1], self.bind[2])
 
-        #Faza rytmu serca w momencie wystąpienia oddechu
+        # Faza rytmu serca w momencie wystąpienia oddechu
         plotter.heart_when_breath(indexes, previous_step)

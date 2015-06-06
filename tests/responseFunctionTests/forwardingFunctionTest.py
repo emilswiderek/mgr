@@ -1,8 +1,10 @@
 # test if distances between breaths are equal
 import unittest
-import generator.helper as hp
-from responseFunction.forwardingFunction import ForwardingFunction
+
 import matplotlib.pyplot as plt
+
+import helpers.helper as hp
+from responseFunction.forwardingFunction import ForwardingFunction
 
 
 class TestForwardingFunction(unittest.TestCase):

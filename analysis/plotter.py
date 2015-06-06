@@ -1,8 +1,13 @@
 import matplotlib.pyplot as plt
-import generator.helper as hp
+
+import helpers.helper as hp
+import helpers.storageHelper as shp
 
 
 class Plotter():
+
+    def __init__(self):
+        self.show = hp.show_plots
 
     def map(self, previous_step, results):
         """
@@ -18,7 +23,11 @@ class Plotter():
         plt.xlabel("Faza rytmu serca przed oddechem")
         plt.scatter(previous_step, results, c=results, s=70)
         plt.gray()
-        plt.show()
+
+        if self.show:
+            plt.show()
+        else:
+            plt.savefig(shp.get_storage_path()+"/map.png")
 
     def heart_rate(self, timesteps, heart_rate):
         """
@@ -34,7 +43,10 @@ class Plotter():
         plt.xlim(0, 15)
         plt.grid(True)
         plt.plot(timesteps, heart_rate, 'b')
-        plt.show()
+        if self.show:
+            plt.show()
+        else:
+            plt.savefig(shp.get_storage_path()+"/heart_rate.png")
 
     def heart_and_breath_rate(self, timesteps, breath_rate, heart_rate):
         """
@@ -44,25 +56,45 @@ class Plotter():
         :param heart_rate:
         :return:
         """
+        plt.figure(1)
         plt.suptitle("Faza rytmu serca oraz faza rytmu oddechu")
-        plt.title("T/T0: "+str(hp.T_to_T0))
+
+        plt.subplot(211)
+        plt.title("Oddech T/T0: "+str(hp.T_to_T0))
         plt.xlabel("Czas 1 = 1 okres rytmu oddechu")
-        plt.ylabel("Faza")
+        plt.ylabel("Faza rytmu oddechu")
         plt.xlim(0, 15)
         plt.ylim(-0.00001, 0.00001)
         plt.grid(True)
-        plt.plot(timesteps, breath_rate, 'b|', timesteps, heart_rate, 'g|', markersize=300)
-        plt.show()
+        plt.plot(timesteps, breath_rate, 'b|', markersize=30)
+
+        plt.subplot(212)
+        plt.title("Serce T/T0: "+str(hp.T_to_T0))
+        plt.xlabel("Czas 1 = 1 okres rytmu oddechu")
+        plt.ylabel("Faza rytmu serca")
+        plt.xlim(0, 15)
+        plt.ylim(-0.00001, 0.00001)
+        plt.grid(True)
+        plt.plot(timesteps, heart_rate, 'g|', markersize=30)
+
+        if self.show:
+            plt.show()
+        else:
+            plt.savefig(shp.get_storage_path()+"/heart_and_breath.png")
 
     def heart_when_breath(self, timesteps, phase):
 
         plt.suptitle("Faza rytmu serca")
         plt.title("W momencie wystąpienia oddechu")
         plt.grid(True)
+        plt.xlim(len(timesteps)/10)
         plt.xlabel("Czas 1 = 1 okres rytmu oddechu")
         plt.ylabel("Faza")
         plt.plot(timesteps, phase, 'b')
-        plt.show()
+        if self.show:
+            plt.show()
+        else:
+            plt.savefig(shp.get_storage_path()+"/heart_when_breath.png")
 
     def plot_rr_sd(self, breath, av, sd):
 
@@ -82,7 +114,10 @@ class Plotter():
         plt.ylabel("Odchylenie std")
         plt.bar(breath, sd)
 
-        plt.show()
+        if self.show:
+            plt.show()
+        else:
+            plt.savefig(shp.get_storage_path()+"/rr_sd.png")
 
     def plot_map_and_fit(self, map, fit):
 
@@ -100,7 +135,10 @@ class Plotter():
         #plt.ylabel("Dopasowanie")
         plt.plot(fit[0], fit[1], 'g*')
 
-        plt.show()
+        if self.show:
+            plt.show()
+        else:
+            plt.savefig(shp.get_storage_path()+"/map_and_fit.png")
 
     def plot_division_by_x(self, x, y, sX, sY, vX, vY):
         """
@@ -114,4 +152,8 @@ class Plotter():
         plt.plot(x, y, 'b^')
         plt.plot(sX, sY, 'g*')
         plt.plot(vX, vY, 'r.')
-        plt.show()
+
+        if self.show:
+            plt.show()
+        else:
+            plt.savefig(shp.get_storage_path()+"/division_by_x.png")
