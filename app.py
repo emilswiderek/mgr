@@ -4,14 +4,13 @@ from analysis.oneExtortionPeriodAnalysis import Analyzer
 from generator.extortionSpectrum import ExtortionSpectrumGenerator
 from analysis.extortionSpectrumAnalysis import ExtortionSpectrumAnalyzer
 from generator.dataStorage import DataStorage
-import helpers.helper as hp
 
 # options:
 # 'gen_ext' - generate extortion spectrum and save it in the storage file
 # 'one_period' - generate and analyze data for one breath period
 # else - read from data storage and analyze spectrum
 
-option = 'one_period_analyze'
+option = 'one_period'
 
 if option == 'one_period':
 
@@ -23,8 +22,6 @@ if option == 'one_period':
     onePeriodAnalyzer = Analyzer(breath, heart)
 
     onePeriodAnalyzer.analyze()
-
-elif option == 'one_period_analyze':
 
     print("Analiza dla 1 okresu oddechu")
 

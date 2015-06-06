@@ -16,6 +16,7 @@ class Plotter():
         :param results:
         :return:
         """
+        plt.clf()
         plt.suptitle("Mapa powrotu")
         plt.title("Faza rytmu serca po oddechu od fazy przed oddechem")
         plt.grid(True)
@@ -36,6 +37,7 @@ class Plotter():
         :param heart_rate:
         :return:
         """
+        plt.clf()
         plt.suptitle("Faza rytmu serca")
         plt.title("T/T0: " + str(hp.T_to_T0))
         plt.xlabel("Czas 1 = 1 okres rytmu oddechu")
@@ -56,12 +58,12 @@ class Plotter():
         :param heart_rate:
         :return:
         """
+        plt.clf()
         plt.figure(1)
         plt.suptitle("Faza rytmu serca oraz faza rytmu oddechu")
 
         plt.subplot(211)
         plt.title("Oddech T/T0: "+str(hp.T_to_T0))
-        plt.xlabel("Czas 1 = 1 okres rytmu oddechu")
         plt.ylabel("Faza rytmu oddechu")
         plt.xlim(0, 15)
         plt.ylim(-0.00001, 0.00001)
@@ -84,6 +86,7 @@ class Plotter():
 
     def heart_when_breath(self, timesteps, phase):
 
+        plt.clf()
         plt.suptitle("Faza rytmu serca")
         plt.title("W momencie wystąpienia oddechu")
         plt.grid(True)
@@ -97,14 +100,13 @@ class Plotter():
             plt.savefig(shp.get_storage_path()+"/heart_when_breath.png")
 
     def plot_rr_sd(self, breath, av, sd):
-
+        plt.clf()
         plt.figure(1)
 
         plt.subplot(211)
         plt.suptitle("Odchylenie std")
         plt.title("Dla okresu rytmu serca: "+str(hp.heart_period))
         plt.grid(True)
-        plt.xlabel("Okres oddechu")
         plt.ylabel("Średnie RR")
         plt.errorbar(breath, av, sd, linestyle='None', marker='^')
 
@@ -120,7 +122,7 @@ class Plotter():
             plt.savefig(shp.get_storage_path()+"/rr_sd.png")
 
     def plot_map_and_fit(self, map, fit):
-
+        plt.clf()
         #plt.figure(1)
 
         #plt.subplot(211)
@@ -143,15 +145,19 @@ class Plotter():
     def plot_division_by_x(self, x, y, sX, sY, vX, vY):
         """
 
-        :param x:
-        :param y:
-        :param sX:
-        :param sY:
+        :param x: X values
+        :param y: Y fitting curve divided by x
+        :param sX: original response function X
+        :param sY: original response function Y
+        :param vX: X values
+        :param vY: Y map Y values divided by X
         :return:
         """
-        plt.plot(x, y, 'b^')
-        plt.plot(sX, sY, 'g*')
-        plt.plot(vX, vY, 'r.')
+        plt.clf()
+        line1, = plt.plot(x, y, 'b^', label="Dopasowanie/X")
+        line2, = plt.plot(sX, sY, 'g*', label="Krzywa odpowiedzi fazowej")
+        line3, = plt.plot(vX, vY, 'r.', label="Mapa/X")
+        plt.legend([line1, line2, line3])
 
         if self.show:
             plt.show()
