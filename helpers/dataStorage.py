@@ -19,6 +19,7 @@ class DataStorage():
         :param data:
         :return:
         """
+        self.clear()
         file = open(shp.get_storage_path()+"/"+self.filename, 'w+')
         js.dump(data, file)
         file.close()
@@ -40,8 +41,8 @@ class DataStorage():
 
         :return:
         """
-        if os.path.isfile(self.filename):
-            os.remove(self.filename)
+        if os.path.isfile((shp.get_storage_path()+"/"+self.filename)):
+            os.remove((shp.get_storage_path()+"/"+self.filename))
 
     def set_filename(self, name):
         self.filename = name

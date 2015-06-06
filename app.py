@@ -3,7 +3,8 @@ from generator import main
 from analysis.oneExtortionPeriodAnalysis import Analyzer
 from generator.extortionSpectrum import ExtortionSpectrumGenerator
 from analysis.extortionSpectrumAnalysis import ExtortionSpectrumAnalyzer
-from generator.dataStorage import DataStorage
+from helpers.dataStorage import DataStorage
+import helpers.helper as hp
 
 # options:
 # 'gen_ext' - generate extortion spectrum and save it in the storage file
@@ -13,6 +14,8 @@ from generator.dataStorage import DataStorage
 option = 'one_period'
 
 if option == 'one_period':
+
+    hp.set_one_period(True)
 
     print("Generowanie i analiza dla 1 okresu oddechu")
 
@@ -36,6 +39,8 @@ if option == 'one_period':
 
 elif option == 'gen_ext':
 
+    hp.set_one_period(False)
+
     print("Generowanie")
 
     # results for different extortion periods:
@@ -46,11 +51,11 @@ elif option == 'gen_ext':
 
     storage = DataStorage()
 
-    storage.clear()
-
     storage.store(results)
 
 else:
+
+    hp.set_one_period(False)
 
     print("Analiza wyników")
 

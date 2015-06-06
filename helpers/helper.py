@@ -11,6 +11,7 @@ max_breath_period = 200
 response_function = 'sinus'
 map_fitting_degree = 10
 show_plots = False
+one_period = True
 
 
 def set_number_of_breaths(newVal):
@@ -85,3 +86,8 @@ def set_map_fitting_degree(value):
 def set_show_plots(value):
     global show_plots
     show_plots = bool(value)
+
+
+def set_one_period(value):
+    global one_period
+    one_period = bool(value)

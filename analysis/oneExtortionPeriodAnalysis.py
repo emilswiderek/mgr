@@ -1,4 +1,4 @@
-from generator.dataStorage import DataStorage
+from helpers.dataStorage import DataStorage
 
 __author__ = 'emil'
 

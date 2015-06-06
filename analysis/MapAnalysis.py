@@ -4,7 +4,7 @@ import numpy as np
 import helpers.helper as hp
 from analysis.plotter import Plotter
 from generator.heart_gen import HeartGenerator
-from generator.dataStorage import DataStorage
+from helpers.dataStorage import DataStorage
 
 
 class MapAnalysis():
