@@ -3,6 +3,7 @@ import numpy as np
 import generator.helper as hp
 from analysis.plotter import Plotter
 from generator.heart_gen import HeartGenerator
+from generator.dataStorage import DataStorage
 
 
 class MapAnalysis():
@@ -16,9 +17,13 @@ class MapAnalysis():
         plotter.plot_map_and_fit(map, fitted)
         #zakładamy x*f(x):
         x, y = self.divide_by_x(fitted)
-        spectrumX, spectrumY = self.get_response_function_spectrum()
+        spectrumX, spectrumY = self.get_response_function_spectrum(map)
         vX, vY = self.map_division(map)
         plotter.plot_division_by_x(x, y, spectrumX, spectrumY, vX, vY)
+
+        storage = DataStorage()
+        storage.set_filename(str(hp.T_to_T0)+"_"+str(hp.response_function)+"_response.json")
+        storage.store({'x': spectrumX, 'y': spectrumY})
 
     def fit_polynomial(self, map):
         """
@@ -45,18 +50,16 @@ class MapAnalysis():
                 result[i] = fitted[1][i]/fitted[0][i] - fitted[0][i]
         return fitted[0], result - np.mean(result)
 
-    def get_response_function_spectrum(self):
+    def get_response_function_spectrum(self, map):
         heart_gen = HeartGenerator()
         response_function = heart_gen.getResponseFunction(hp.response_function)
-        spectrum = list(range(0, hp.heart_period))
+        spectrum = map['previous_step']
         spectrum_response = []
-        spectrum_normalised = []
 
         for x in spectrum:
-            spectrum_response.append(response_function.getResponse(x))
-            spectrum_normalised.append(x/hp.heart_period)
+            spectrum_response.append(response_function.getResponse(x*hp.heart_period))
 
-        return spectrum_normalised, spectrum_response
+        return spectrum, spectrum_response
 
     def map_division(self, map):
         result= []
