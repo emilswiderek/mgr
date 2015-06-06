@@ -102,7 +102,7 @@ class Plotter():
 
         plt.show()
 
-    def plot_division_by_x(self, x, y, sX, sY):
+    def plot_division_by_x(self, x, y, sX, sY, vX, vY):
         """
 
         :param x:
@@ -113,4 +113,5 @@ class Plotter():
         """
         plt.plot(x, y, 'b^')
         plt.plot(sX, sY, 'g*')
+        plt.plot(vX, vY, 'r.')
         plt.show()

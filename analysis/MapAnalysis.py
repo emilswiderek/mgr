@@ -17,7 +17,8 @@ class MapAnalysis():
         #zakładamy x*f(x):
         x, y = self.divide_by_x(fitted)
         spectrumX, spectrumY = self.get_response_function_spectrum()
-        plotter.plot_division_by_x(x, y, spectrumX, spectrumY)
+        vX, vY = self.map_division(map)
+        plotter.plot_division_by_x(x, y, spectrumX, spectrumY, vX, vY)
 
     def fit_polynomial(self, map):
         """
@@ -36,12 +37,12 @@ class MapAnalysis():
         return fitting_curve, fit
 
     def divide_by_x(self, fitted):
-        result = fitted[1]/fitted[0]
+        result = np.zeros(shape=(len(fitted[0]), 1)) #fitted[1]/fitted[0]
         for i in range(0, len(fitted[0])):
             if fitted[0][i] == 0:
                 result[i] = 0
             else:
-                result[i] = fitted[1][i]/fitted[0][i]
+                result[i] = fitted[1][i]/fitted[0][i] - fitted[0][i]
         return fitted[0], result - np.mean(result)
 
     def get_response_function_spectrum(self):
@@ -56,3 +57,13 @@ class MapAnalysis():
             spectrum_normalised.append(x/hp.heart_period)
 
         return spectrum_normalised, spectrum_response
+
+    def map_division(self, map):
+        result= []
+        for i in range(0, len(map['previous_step'])):
+            if(map['previous_step'][i] == 0.):
+                result.append(0.)
+            else:
+                result.append(map['next_step'][i]/map['previous_step'][i])
+
+        return map['previous_step'], result - np.mean(result)
