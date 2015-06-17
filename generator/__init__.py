@@ -16,7 +16,7 @@ hp.set_min_breath_period(cp['generator']['min_breath_period'])
 hp.set_max_breath_period(cp['generator']['max_breath_period'])
 #hp.set_heart_period(300) # @todo ??
 
-hp.set_response_function('sinus')
+hp.set_response_function('akselrod')
 hp.set_show_plots(False)
 
 import helpers.storageHelper as shp
