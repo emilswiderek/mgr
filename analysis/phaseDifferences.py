@@ -22,5 +22,5 @@ class PhaseDifferences():
             if x-1 > 0:
                 previous_step.append(heart[x-1]/hp.heart_period)
             else:
-                previous_step.append(0)
+                previous_step.append(0)#init with previous step as 0
         return indexes[0]/hp.breath_period, snapshots, previous_step

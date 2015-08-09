@@ -163,3 +163,20 @@ class Plotter():
             plt.show()
         else:
             plt.savefig(shp.get_storage_path()+"/division_by_x.png")
+
+    def plot_response_function_from_map(self,substraction, map, responseResult):
+        """
+
+        :param substraction:
+        :param map:
+        :param responseResult:
+        :return:
+        """
+        plt.clf()
+        plt.plot(map['previous_step'], substraction, 'g+')
+        plt.plot(map['previous_step'], responseResult, 'b*')
+
+        if self.show:
+            plt.show()
+        else:
+            plt.savefig(shp.get_storage_path()+"/division_by_x.png")

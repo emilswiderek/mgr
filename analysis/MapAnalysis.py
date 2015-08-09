@@ -14,18 +14,22 @@ class MapAnalysis():
     """
 
     def analyze(self, map):
-        fitted, fit = self.fit_polynomial(map)
-        plotter = Plotter()
-        plotter.plot_map_and_fit(map, fitted)
-        # zakładamy x*f(x):
-        x, y = self.divide_by_x(fitted)
-        spectrumX, spectrumY = self.get_response_function_spectrum(map)
-        vX, vY = self.map_division(map)
-        plotter.plot_division_by_x(x, y, spectrumX, spectrumY, vX, vY)
+        """
 
-        storage = DataStorage()
-        storage.set_filename("response_curve.json")
-        storage.store({'x': spectrumX, 'y': spectrumY})
+        :param map:
+        :return:
+        """
+        result = list()
+        hg = HeartGenerator()
+        responseFunction = hg.getResponseFunction(hp.response_function)
+        responseResult = list()
+        for i in range(0, len(map['previous_step'])):
+            result.append(map['next_step'][i] - map['previous_step'][i])
+            responseResult.append(responseFunction.getResponse(map['previous_step'][i]*hp.heart_period))#because of normalisation happening inside of the function
+
+
+        plotter = Plotter()
+        plotter.plot_response_function_from_map(result, map, responseResult)
 
     def fit_polynomial(self, map):
         """
