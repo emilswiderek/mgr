@@ -2,6 +2,7 @@ __author__ = 'emil'
 import tests.responseFunctionTests.forwardingFunctionTest as fftest
 import tests.responseFunctionTests.sinusFunctionTest as sintest
 import tests.responseFunctionTests.AkselrodFunctionTest as AkselrodTest
+import tests.responseFunctionTests.halfSinusFunctionTest as halfSinTest
 
 
 def run_tests():
@@ -15,6 +16,12 @@ def run_tests():
     print("Sinus function test: \n---")
     test1 = sintest.TestSinusFunction()
     test1.test_response()
+    test1.test_entireSpectrumResponseShow()
+    print("OK! \n---")
+
+    print("HalfSinus function test: \n---")
+    test1 = halfSinTest.TestSinusFunction()
+    #test1.test_response()
     test1.test_entireSpectrumResponseShow()
     print("OK! \n---")
     #print("Omitted \n")
