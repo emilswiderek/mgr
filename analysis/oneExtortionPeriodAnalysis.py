@@ -46,7 +46,7 @@ class Analyzer:
         plotter = Plotter()
 
         # Mapa powrotu:
-        storage.set_filename("map.json")
+        storage.set_filename(str(hp.response_function)+"_"+str(hp.min_breath_period)+"_"+str(hp.max_breath_period)+"_map.json")
         storage.store({'previous_step': previous_step, 'next_step': results})
         plotter.map(previous_step, results)
 

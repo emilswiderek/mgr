@@ -5,64 +5,82 @@ from generator.extortionSpectrum import ExtortionSpectrumGenerator
 from analysis.extortionSpectrumAnalysis import ExtortionSpectrumAnalyzer
 from helpers.dataStorage import DataStorage
 import helpers.helper as hp
+import gc
 
 # options:
 # 'gen_ext' - generate extortion spectrum and save it in the storage file
 # 'one_period' - generate and analyze data for one breath period
-# else - read from data storage and analyze spectrum
 
-option = 'one_period'
 
-if option == 'one_period':
+def run(option):
 
-    hp.set_one_period(True)
+    if option == 'one_period':
 
-    print("Generowanie i analiza dla 1 okresu oddechu")
+        hp.set_one_period(True)
 
-    # one period results:
-    breath, heart = main.main()
+        print("Generowanie i analiza dla 1 okresu oddechu")
 
-    onePeriodAnalyzer = Analyzer(breath, heart)
+        # one period results:
+        breath, heart = main.main()
 
-    onePeriodAnalyzer.analyze()
+        onePeriodAnalyzer = Analyzer(breath, heart)
 
-    print("Analiza dla 1 okresu oddechu")
+        onePeriodAnalyzer.analyze()
 
-    storage = DataStorage()
+        print("Analiza dla 1 okresu oddechu")
 
-    #map analysis:
-    storage.set_filename("map.json")
-    map = storage.load()
+        storage = DataStorage()
 
-    mapAnalysis = MapAnalysis()
-    mapAnalysis.analyze(map)
+        #map analysis:
+        storage.set_filename("map.json")
+        map = storage.load()
 
-elif option == 'gen_ext':
+        mapAnalysis = MapAnalysis()
+        mapAnalysis.analyze(map)
 
-    hp.set_one_period(False)
+    elif option == 'gen_ext':
 
-    print("Generowanie")
+        hp.set_one_period(False)
 
-    # results for different extortion periods:
+        print("Generowanie "+str(hp.response_function)+" min: "+str(hp.min_breath_period)+" max: "+str(hp.max_breath_period))
 
-    Generator = ExtortionSpectrumGenerator()
+        # results for different extortion periods:
 
-    results = Generator.generate()
+        Generator = ExtortionSpectrumGenerator()
 
-    storage = DataStorage()
+        results = Generator.generate()
 
-    storage.store(results)
+        storage = DataStorage()
 
-else:
+        storage.store(results)
 
-    hp.set_one_period(False)
+    else:
 
-    print("Analiza wyników")
+        hp.set_one_period(False)
 
-    ExtortionAnalyzer = ExtortionSpectrumAnalyzer()
+        print("Analiza wyników")
 
-    storage = DataStorage()
+        ExtortionAnalyzer = ExtortionSpectrumAnalyzer()
 
-    results = storage.load()
+        storage = DataStorage()
 
-    ExtortionAnalyzer.analyze(results)
+        results = storage.load()
+
+        ExtortionAnalyzer.analyze(results)
+
+#tutaj odpalamy wszystko w pętli
+
+responseFunctions = ['akselrod', 'sinus', 'halfSinus', 'forwarding']
+heartRateBoundaries = [[100, 400], [400, 700]]
+
+for resp in responseFunctions:
+    for heartRate in heartRateBoundaries:
+
+        hp.set_show_plots(False)
+        hp.set_min_breath_period(heartRate[0])
+        hp.set_max_breath_period(heartRate[1])
+        hp.set_response_function(resp)
+
+        run("gen_ext")
+
+    gc.collect()

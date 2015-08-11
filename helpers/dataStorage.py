@@ -1,6 +1,7 @@
 import json as js
 import os
 import helpers.storageHelper as shp
+import helpers.helper as hp
 
 
 class DataStorage():
@@ -10,7 +11,7 @@ class DataStorage():
     """
 
     def __init__(self):
-        self.filename = "dataStorage.json"
+        self.filename = str(hp.response_function)+"_"+str(hp.min_breath_period)+"_"+str(hp.max_breath_period)+"_dataStorage.json"
 
     def store(self, data):
         """
