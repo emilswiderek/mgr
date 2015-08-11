@@ -38,6 +38,8 @@ def run(option):
         mapAnalysis = MapAnalysis()
         mapAnalysis.analyze(map)
 
+        return
+
     elif option == 'gen_ext':
 
         hp.set_one_period(False)
@@ -53,6 +55,8 @@ def run(option):
         storage = DataStorage()
 
         storage.store(results)
+        print("Zakończono")
+        return
 
     else:
 
@@ -67,6 +71,8 @@ def run(option):
         results = storage.load()
 
         ExtortionAnalyzer.analyze(results)
+
+        return
 
 #tutaj odpalamy wszystko w pętli
 

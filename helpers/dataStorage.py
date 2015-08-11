@@ -22,8 +22,10 @@ class DataStorage():
         """
         self.clear()
         file = open(shp.get_storage_path()+"/"+self.filename, 'w+')
+        print("Zapisywanie w "+self.filename)
         js.dump(data, file)
-        file.close()
+        print("Zapisano")
+        return file.close()
 
     def load(self):
         """
