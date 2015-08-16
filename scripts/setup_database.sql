@@ -1,6 +1,6 @@
 CREATE SCHEMA `mgr` DEFAULT CHARACTER SET utf8 COLLATE utf8_polish_ci ;
 
-CREATE TABLE `mgr`.`specrum` (
+CREATE TABLE `mgr`.`spectrum` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `measure_id` INT NULL,
   `mean_rr` FLOAT NULL,
@@ -27,3 +27,6 @@ ADD INDEX `breath_period` (`breath_period` ASC),
 ADD INDEX `heart_period` (`heart_period` ASC),
 ADD INDEX `min_breath_period` (`min_breath_period` ASC),
 ADD INDEX `max_breath_period` (`max_breath_period` ASC);
+
+ALTER TABLE `mgr`.`spectrum`
+ADD COLUMN `breath_period` INT NULL AFTER `stdev`;
