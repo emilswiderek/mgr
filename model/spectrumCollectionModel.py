@@ -29,9 +29,14 @@ class SpectrumCollectionModel(Model):
         # due to the validation, we know that every parameter has to be the same type and not None:
         sql = "INSERT INTO mgr.spectrum (measure_id, mean_rr, stdev, breath_period) VALUES "
         if(isinstance(self.mean_rr, list)):
-            sql = ", ".join(self.mean_rr)
+            for i in range(0, len(self.mean_rr)):
+                sql += "("+str(self.measure_id)+", "+str(self.mean_rr[i])+", "+str(self.stdev[i])+", "+str(self.breath_period[i])+")"
+                if i <len(self.mean_rr)-1:
+                    sql += ", "
+        else:
+            sql += "("+str(self.measure_id)+", "+str(self.mean_rr)+", "+str(self.stdev)+", "+str(self.breath_period)+")"
 
-        return ""
+        return sql
 
     def _updateSQL(self):
         self._validate(self.ACTION_UPDATE)
@@ -54,4 +59,21 @@ class SpectrumCollectionModel(Model):
         if self.breath_period is None or self.measure_id is None or self.mean_rr is None or self.stdev is None:
             raise Exception("DB_EXCEPTION: Tried to insert incomplete object")
         # check if all parameters types are the same, because we either insert one row or many
-        self._compareAllTypes(list(["measure_id", "mean_rr", "stdev", "breath_period"]))
+        self._compareAllTypes(list(["mean_rr", "stdev"]))
+        if isinstance(self.breath_period, list) and not isinstance(self.mean_rr, list):
+            raise Exception("DB_EXCEPTION: breath_period:list has different type than mean_rr:"+str(type(self.mean_rr)))
+
+    def setId(self, id):
+        self.id = id
+
+    def setMeasureId(self, measure_id):
+        self.measure_id = measure_id
+
+    def setMeanRR(self, mean_rr):
+        self.mean_rr = mean_rr
+
+    def setStDev(self, stdev):
+        self.stdev = stdev
+
+    def setBreathPeriod(self, breath_period):
+        self.breath_period = breath_period

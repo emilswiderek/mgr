@@ -1,6 +1,6 @@
 __author__ = 'emil'
 from model.database import Database
-
+import pprint
 
 class Model():
 
@@ -90,10 +90,10 @@ class Model():
         :return:
         """
         for name in names:
-            if self._compareTypes(names.first, name):
-                raise Exception("DB_EXCEPTION: Type of variable "+str(names.first)+" and "+str(name)+" doesnt match!")
+            if not self._compareTypes(names[0], name):
+                raise Exception("DB_EXCEPTION: Type of variable "+str(names[0])+":"+str(type(getattr(self, names[0])))+" and "+str(name)+":"+str(type(getattr(self, name)))+" doesnt match!")
 
-            if len(getattr(self, name)) != len(getattr(self, names.first)):
-                raise Exception("DB_EXCEPTION: Length of variable"+str(names.first)+" and "+str(name)+" doesnt match!")
+            if hasattr(getattr(self, name), 'len') and len(getattr(self, name)) != len(getattr(self, names[0])):
+                raise Exception("DB_EXCEPTION: Length of variable "+str(names[0])+" and "+str(name)+" doesnt match!")
 
 
