@@ -96,4 +96,7 @@ class Model():
             if hasattr(getattr(self, name), 'len') and len(getattr(self, name)) != len(getattr(self, names[0])):
                 raise Exception("DB_EXCEPTION: Length of variable "+str(names[0])+" and "+str(name)+" doesnt match!")
 
+    def _prepareMysqlString(self, query):
+        return query.replace('None', 'NULL')
+
 

@@ -36,7 +36,7 @@ class SpectrumCollectionModel(Model):
         else:
             sql += "("+str(self.measure_id)+", "+str(self.mean_rr)+", "+str(self.stdev)+", "+str(self.breath_period)+")"
 
-        return sql
+        return self._prepareMysqlString(sql)
 
     def _updateSQL(self):
         self._validate(self.ACTION_UPDATE)
