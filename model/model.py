@@ -1,6 +1,6 @@
 __author__ = 'emil'
 from model.database import Database
-import pprint
+
 
 class Model():
 
@@ -29,7 +29,7 @@ class Model():
 
     def load(self):
         result = self.db.execute(self._loadSQL())
-        self.id = result['id']
+        #self.id = result['id']
         return result
 
     def _insertSQL(self):

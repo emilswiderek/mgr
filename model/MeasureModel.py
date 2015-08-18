@@ -23,15 +23,16 @@ class MeasureModel(Model):
         self.max_breath_period = None
         self.breath_number = None
         self.updated_at = None
+        self.response_function = None
 
     def load(self):
-        result = super(MeasureModel, self).load()
+        return super(MeasureModel, self).load()
 
     def _insertSQL(self):
         self._validate(self.ACTION_INSERT)
         # due to the validation, we know that every parameter has to be the same type and not None:
-        sql = "INSERT INTO mgr.measure (measure_type, breath_period, heart_period, min_breath_period, max_breath_period, breath_number) VALUES "
-        sql += "('"+str(self.measure_type)+"', "+str(self.breath_period)+", "+str(self.heart_period)+", "+str(self.min_breath_period)+", "+str(self.max_breath_period)+", "+str(self.breath_number)+")"
+        sql = "INSERT INTO mgr.measure (measure_type, breath_period, heart_period, min_breath_period, max_breath_period, breath_number, response_function) VALUES "
+        sql += "(\'"+str(self.measure_type)+"\', "+str(self.breath_period)+", "+str(self.heart_period)+", "+str(self.min_breath_period)+", "+str(self.max_breath_period)+", "+str(self.breath_number)+", \'"+str(self.response_function)+"\')"
 
         return self._prepareMysqlString(sql)
 
@@ -44,8 +45,8 @@ class MeasureModel(Model):
         return ""
 
     def _loadSQL(self):
-        self._validate(self.ACTION_LOAD)
-        return ""
+        #self._validate(self.ACTION_LOAD)
+        return "SELECT * FROM `mgr`.`measure`"
 
     def _basicValidation(self, action):
         if self.breath_period is None and self.measure_type is None and self.heart_period is None and self.min_breath_period is None and self.id is None:
@@ -76,3 +77,6 @@ class MeasureModel(Model):
 
     def setBreathNumber(self, breathNumber):
         self.breath_number = breathNumber
+
+    def setResponseFunction(self, responseFunction):
+        self.response_function = responseFunction

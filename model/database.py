@@ -19,7 +19,7 @@ class Database():
 
     def connect(self):
         if self.connection == False and self.cursor == False:
-            self.connection = pymysql.connect(host='127.0.0.1', unix_socket='/tmp/mysql.sock', user='root', passwd=None, db='mysql')
+            self.connection = pymysql.connect(host=self.host, user=self.user, passwd=self.password, db='mysql', charset='utf8', cursorclass=pymysql.cursors.DictCursor)
             self.cursor = self.connection.cursor()
 
     def disconnect(self):
@@ -31,6 +31,11 @@ class Database():
 
     def execute(self, sql):
         self.connect()
-        result = self.cursor.execute(sql)
+        self.cursor.execute(sql)
+        if "INSERT" in sql:
+            result = self.cursor.lastrowid
+        else:
+            result = self.cursor.fetchall()
+        self.connection.commit()
         self.disconnect()
         return result

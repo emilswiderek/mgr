@@ -30,3 +30,7 @@ ADD INDEX `max_breath_period` (`max_breath_period` ASC);
 
 ALTER TABLE `mgr`.`spectrum`
 ADD COLUMN `breath_period` INT NULL AFTER `stdev`;
+
+ALTER TABLE `mgr`.`measure`
+ADD COLUMN `response_function` VARCHAR(255) NULL AFTER `updated_at`;
+
