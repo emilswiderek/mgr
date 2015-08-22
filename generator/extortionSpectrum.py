@@ -4,6 +4,8 @@ from generator.breath_gen import BreathGenerator
 from generator.heart_gen import HeartGenerator
 from model.MeasureModel import MeasureModel
 from model.HeartbeatsCollectionModel import HeartbeatsCollectionModel
+import time  #  tqdm needs it
+from vendor.tqdm.tqdm import *
 
 
 class ExtortionSpectrumGenerator:
@@ -13,7 +15,7 @@ class ExtortionSpectrumGenerator:
         self.max_breath = hp.max_breath_period
 
     def generate(self):
-        for breath_period in range(self.min_breath, self.max_breath):
+        for breath_period in tqdm(range(self.min_breath, self.max_breath)):
 
             BreathGen = BreathGenerator()
             HeartGen = HeartGenerator()
@@ -48,6 +50,3 @@ class ExtortionSpectrumGenerator:
 
             del HeartGen
             del heartbeats
-
-            #results[x] = {'breath': breath, 'heart': HeartGen.generateProcess()}
-            print("Generating for breath period: "+str(breath_period)+"/"+str(self.max_breath-1))

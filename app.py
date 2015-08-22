@@ -49,7 +49,7 @@ def run(option):
 
         hp.set_one_period(False)
 
-        print("Generating "+str(hp.response_function)+" min: "+str(hp.min_breath_period)+" max: "+str(hp.max_breath_period))
+        print("---- Generating "+str(hp.response_function)+" min: "+str(hp.min_breath_period)+" max: "+str(hp.max_breath_period)+"---- \n\r")
 
         # results for different extortion periods:
 
@@ -57,7 +57,6 @@ def run(option):
 
         Generator.generate()
 
-        print("Finished")
         return
 
     else:  # analyze_ext
@@ -79,14 +78,13 @@ def run(option):
 #multi generation happens here:
 
 responseFunctions = ['akselrod', 'sinus', 'halfSinus', 'forwarding']
-heartRateBoundaries = [[100, 110], [111, 120]]
+
+hp.set_show_plots(False)
+hp.set_min_breath_period(100)
+hp.set_max_breath_period(1200)
 
 for resp in responseFunctions:
-    for heartRate in heartRateBoundaries:
 
-        hp.set_show_plots(False)
-        hp.set_min_breath_period(heartRate[0])
-        hp.set_max_breath_period(heartRate[1])
-        hp.set_response_function(resp)
+    hp.set_response_function(resp)
 
-        run("gen_ext")
+    run("gen_ext")
