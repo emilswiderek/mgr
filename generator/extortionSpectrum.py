@@ -2,6 +2,8 @@ __author__ = 'emil'
 from helpers import helper as hp
 from generator.breath_gen import BreathGenerator
 from generator.heart_gen import HeartGenerator
+import pprint
+import os
 
 
 class ExtortionSpectrumGenerator:
@@ -25,6 +27,8 @@ class ExtortionSpectrumGenerator:
             HeartGen.setBreathFunction(breath)
 
             results[x] = {'breath': breath, 'heart': HeartGen.generateProcess()}
+            pprint.pprint(results) # @todo inny output!
+            os._exit(1)
 
             print("Generating "+str(x)+"/"+str(self.max_breath-1))
 

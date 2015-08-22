@@ -8,6 +8,9 @@ from model.spectrumCollectionModel import SpectrumCollectionModel
 from model.MeasureModel import MeasureModel
 import helpers.helper as hp
 import os
+from model.HeartbeatsCollectionModel import HeartbeatsCollectionModel
+
+import pprint
 
 # options:
 # 'gen_ext' - generate extortion spectrum and save it in the storage file
@@ -54,24 +57,31 @@ def run(option):
 
         results = Generator.generate()
 
-        measure = MeasureModel()
-        measure.setHeartPeriod(hp.heart_period)
-        measure.setMinBreathPeriod(hp.min_breath_period)
-        measure.setResponseFunction(hp.response_function)
-        measure.setMaxBreathPeriod(hp.max_breath_period)
-        measure.setBreathNumber(hp.number_of_breaths)
-        measure.setMeasureType('spectrum')
-        measureId = measure.save()
+        # @todo for results start here
 
-        spectrum = SpectrumCollectionModel()
-        spectrum.setMeasureId(measureId)
-        spectrum.setBreathPeriod(hp.breath_period)
-        #może to do analyze dać?
+        for i in range(0, len(results)):
+            pprint.pprint(results)
+            os._exit(1)
+            measure = MeasureModel()
+            measure.setHeartPeriod(hp.heart_period)
+            measure.setMinBreathPeriod(hp.min_breath_period)
+            measure.setResponseFunction(hp.response_function)
+            measure.setMaxBreathPeriod(hp.max_breath_period)
+            measure.setBreathNumber(hp.number_of_breaths)
+            measure.setMeasureType('gen_ext')
+            measureId = measure.save()
+
+            heartbeats = HeartbeatsCollectionModel()
+            heartbeats.setMeasureId(measureId)
+            heartbeats.setHeartPhase(results[i]['heart'])
+            id = heartbeats.save()
+
+            print("Saved to database, measurement id:"+str(measureId)+" ")
 
         print("Zakończono")
         return
 
-    else:
+    else:  # analyze_ext
 
         hp.set_one_period(False)
 

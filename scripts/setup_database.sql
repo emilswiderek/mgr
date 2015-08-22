@@ -34,3 +34,12 @@ ADD COLUMN `breath_period` INT NULL AFTER `stdev`;
 ALTER TABLE `mgr`.`measure`
 ADD COLUMN `response_function` VARCHAR(255) NULL AFTER `updated_at`;
 
+CREATE TABLE `mgr`.`heartbeats` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `heart_phase` INT NOT NULL,
+  `measure_id` INT NOT NULL,
+  `breath_phase` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC));
+
+

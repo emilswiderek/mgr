@@ -5,6 +5,7 @@ from tests import heart_gen_test as hgt
 from tests.responseFunctionTests import run_tests as response_function_tests
 from tests.modelTests.spectrumCollectionModelTest import TestSpectrumCollectionModel
 from tests.modelTests.measureModelTest import TestMeasureModel
+from tests.modelTests.heartbeatsCollectionModelTest import HeartbeatsCollectionModelTest
 
 print("-----------\nTests begin")
 print("--- \nModels testing:")
@@ -13,6 +14,9 @@ spectrumModelTest.test_insert_sql()
 spectrumModelTest.test_multiple_insert_sql()
 measureModelTest = TestMeasureModel()
 measureModelTest.test_insert_sql()
+heartbeatModelTest = HeartbeatsCollectionModelTest()
+heartbeatModelTest.test_insert_sql()
+heartbeatModelTest.test_multiple_insert_sql()
 print("--- \nBreath generator testing: ")
 breathTest = bgt.TestBreathGen()
 breathTest.test_generate()

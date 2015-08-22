@@ -63,9 +63,6 @@ class SpectrumCollectionModel(Model):
         if isinstance(self.breath_period, list) and not isinstance(self.mean_rr, list):
             raise Exception("DB_EXCEPTION: breath_period:list has different type than mean_rr:"+str(type(self.mean_rr)))
 
-    def setId(self, id):
-        self.id = id
-
     def setMeasureId(self, measure_id):
         self.measure_id = measure_id
 
