@@ -57,11 +57,7 @@ def run(option):
 
         results = Generator.generate()
 
-        # @todo for results start here
-
-        for i in range(0, len(results)):
-            pprint.pprint(results)
-            os._exit(1)
+        for breath_period in results:
             measure = MeasureModel()
             measure.setHeartPeriod(hp.heart_period)
             measure.setMinBreathPeriod(hp.min_breath_period)
@@ -69,12 +65,14 @@ def run(option):
             measure.setMaxBreathPeriod(hp.max_breath_period)
             measure.setBreathNumber(hp.number_of_breaths)
             measure.setMeasureType('gen_ext')
+            measure.setBreathPeriod(breath_period)
             measureId = measure.save()
 
             heartbeats = HeartbeatsCollectionModel()
             heartbeats.setMeasureId(measureId)
-            heartbeats.setHeartPhase(results[i]['heart'])
-            id = heartbeats.save()
+            heartbeats.setHeartPhase(results[breath_period]['heart'])
+            heartbeats.setBreathPhase(results[breath_period]['breath'])
+            heartbeats.save()
 
             print("Saved to database, measurement id:"+str(measureId)+" ")
 

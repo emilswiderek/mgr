@@ -27,9 +27,6 @@ class ExtortionSpectrumGenerator:
             HeartGen.setBreathFunction(breath)
 
             results[x] = {'breath': breath, 'heart': HeartGen.generateProcess()}
-            pprint.pprint(results) # @todo inny output!
-            os._exit(1)
-
             print("Generating "+str(x)+"/"+str(self.max_breath-1))
 
         return results
