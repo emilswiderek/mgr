@@ -2,8 +2,8 @@ __author__ = 'emil'
 from helpers import helper as hp
 from generator.breath_gen import BreathGenerator
 from generator.heart_gen import HeartGenerator
-import pprint
-import os
+from model.MeasureModel import MeasureModel
+from model.HeartbeatsCollectionModel import HeartbeatsCollectionModel
 
 
 class ExtortionSpectrumGenerator:
@@ -13,20 +13,38 @@ class ExtortionSpectrumGenerator:
         self.max_breath = hp.max_breath_period
 
     def generate(self):
-        results = {}
         BreathGen = BreathGenerator()
         HeartGen = HeartGenerator()
         HeartGen.setResponseFunction(HeartGen.getResponseFunction(hp.response_function))
 
-        for x in range(self.min_breath, self.max_breath):
-            hp.set_breath_period(x)
+        for breath_period in range(self.min_breath, self.max_breath):
+
+            hp.set_breath_period(breath_period)
             hp.calculateTtoT0()
+
+            measure = MeasureModel()
+            measure.setHeartPeriod(hp.heart_period)
+            measure.setMinBreathPeriod(hp.min_breath_period)
+            measure.setResponseFunction(hp.response_function)
+            measure.setMaxBreathPeriod(hp.max_breath_period)
+            measure.setBreathNumber(hp.number_of_breaths)
+            measure.setMeasureType('gen_ext')
+            measure.setBreathPeriod(breath_period)
+            measureId = measure.save()
+
+            del measure
 
             breath = BreathGen.generateProcess()
 
             HeartGen.setBreathFunction(breath)
 
-            results[x] = {'breath': breath, 'heart': HeartGen.generateProcess()}
-            print("Generating "+str(x)+"/"+str(self.max_breath-1))
+            heartbeats = HeartbeatsCollectionModel()
+            heartbeats.setMeasureId(measureId)
+            heartbeats.setHeartPhase(HeartGen.generateProcess())
+            heartbeats.setBreathPhase(breath)
+            heartbeats.save()
 
-        return results
+            del heartbeats
+
+            #results[x] = {'breath': breath, 'heart': HeartGen.generateProcess()}
+            print("Generating for breath period: "+str(breath_period)+"/"+str(self.max_breath-1))

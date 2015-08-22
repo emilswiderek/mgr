@@ -49,34 +49,15 @@ def run(option):
 
         hp.set_one_period(False)
 
-        print("Generowanie "+str(hp.response_function)+" min: "+str(hp.min_breath_period)+" max: "+str(hp.max_breath_period))
+        print("Generating "+str(hp.response_function)+" min: "+str(hp.min_breath_period)+" max: "+str(hp.max_breath_period))
 
         # results for different extortion periods:
 
         Generator = ExtortionSpectrumGenerator()
 
-        results = Generator.generate()
+        Generator.generate()
 
-        for breath_period in results:
-            measure = MeasureModel()
-            measure.setHeartPeriod(hp.heart_period)
-            measure.setMinBreathPeriod(hp.min_breath_period)
-            measure.setResponseFunction(hp.response_function)
-            measure.setMaxBreathPeriod(hp.max_breath_period)
-            measure.setBreathNumber(hp.number_of_breaths)
-            measure.setMeasureType('gen_ext')
-            measure.setBreathPeriod(breath_period)
-            measureId = measure.save()
-
-            heartbeats = HeartbeatsCollectionModel()
-            heartbeats.setMeasureId(measureId)
-            heartbeats.setHeartPhase(results[breath_period]['heart'])
-            heartbeats.setBreathPhase(results[breath_period]['breath'])
-            heartbeats.save()
-
-            print("Saved to database, measurement id:"+str(measureId)+" ")
-
-        print("Zakończono")
+        print("Finished")
         return
 
     else:  # analyze_ext
@@ -95,7 +76,7 @@ def run(option):
 
         return
 
-#tutaj odpalamy wszystko w pętli
+#multi generation happens here:
 
 responseFunctions = ['akselrod', 'sinus', 'halfSinus', 'forwarding']
 heartRateBoundaries = [[100, 110], [111, 120]]

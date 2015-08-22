@@ -30,6 +30,10 @@ class HeartGenerator(Generator):
         return self.phase_iterator
 
     def generateProcess(self):
+
+        del self.process
+        self.__init__()
+
         for x in range(0, hp.breath_period*hp.number_of_breaths):
             self.breathPhase = self.breathFunction[x]
             self.process.append(self.generate())
