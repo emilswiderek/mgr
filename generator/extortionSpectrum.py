@@ -13,11 +13,11 @@ class ExtortionSpectrumGenerator:
         self.max_breath = hp.max_breath_period
 
     def generate(self):
-        BreathGen = BreathGenerator()
-        HeartGen = HeartGenerator()
-        HeartGen.setResponseFunction(HeartGen.getResponseFunction(hp.response_function))
-
         for breath_period in range(self.min_breath, self.max_breath):
+
+            BreathGen = BreathGenerator()
+            HeartGen = HeartGenerator()
+            HeartGen.setResponseFunction(HeartGen.getResponseFunction(hp.response_function))
 
             hp.set_breath_period(breath_period)
             hp.calculateTtoT0()
@@ -36,6 +36,8 @@ class ExtortionSpectrumGenerator:
 
             breath = BreathGen.generateProcess()
 
+            del BreathGen
+
             HeartGen.setBreathFunction(breath)
 
             heartbeats = HeartbeatsCollectionModel()
@@ -44,6 +46,7 @@ class ExtortionSpectrumGenerator:
             heartbeats.setBreathPhase(breath)
             heartbeats.save()
 
+            del HeartGen
             del heartbeats
 
             #results[x] = {'breath': breath, 'heart': HeartGen.generateProcess()}
