@@ -64,24 +64,19 @@ def run(option):
         hp.set_one_period(False)
 
         # we are selecting one measure in db:
-        measure = MeasureModel()
-        measure.limit(1)
-        measure.offset(0)
-        measure.order('id', 'ASC')
-        measure.where([('measure_type', MeasureModel.TYPE_GENERATE_EXTORTION, '=')])
-        measure.load()
+        analysis = MeasureModel()  # 1 analysis measure = many generation measures
+        analysis.setMaxBreathPeriod(hp.max_breath_period)
+        analysis.setMinBreathPeriod(hp.min_breath_period)
+        analysis.setResponseFunction(hp.response_function)
+        analysis.setBreathNumber(hp.number_of_breaths)
+        analysis.setMeasureType(MeasureModel.TYPE_ANALYZE_EXTORTION)
+        analysis.setResultsModel()
 
-        #for loop:
-        measure.results.limit(1000)
-        measure.results.offset(0)
-        measure.order('id', 'ASC')
-        measure.getMeasureResults(True)
-
-        print("Restults analysis")
+        print("Restults analysis for "+str(hp.response_function))
 
         ExtortionAnalyzer = ExtortionSpectrumAnalyzer()
 
-        ExtortionAnalyzer.analyze(measure)
+        ExtortionAnalyzer.analyze(analysis)
 
         return
 

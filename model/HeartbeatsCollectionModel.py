@@ -27,7 +27,6 @@ class HeartbeatsCollectionModel(Model):
         :return:
         """
         result = super(HeartbeatsCollectionModel, self).load()
-        return result
 
         self.id = []
         self.measure_id = []

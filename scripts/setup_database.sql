@@ -43,3 +43,5 @@ CREATE TABLE `mgr`.`heartbeats` (
   UNIQUE INDEX `id_UNIQUE` (`id` ASC));
 
 
+ALTER TABLE `mgr`.`heartbeats`
+ADD INDEX `measure_id` (`measure_id` ASC);

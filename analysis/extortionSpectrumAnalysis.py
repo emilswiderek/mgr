@@ -5,39 +5,39 @@ import numpy as np
 from helpers import helper as hp
 from analysis.plotter import Plotter
 from model.MeasureModel import MeasureModel
-import copy
-
+from vendor.tqdm.tqdm import *
 
 class ExtortionSpectrumAnalyzer:
 
-    def analyze(self, measure):
+    def analyze(self, analysis):
         """
 
         :param measure: MeasureModel
         :return:
         """
-        if not isinstance(measure, MeasureModel):
+        if not isinstance(analysis, MeasureModel):
             raise Exception("Analysis error, wrong input")
 
-        analysisMeasure = copy.copy(measure) # new measure, as analysis
-        analysisMeasure.setMeasureType(MeasureModel.TYPE_ANALYZE_EXTORTION)
-        analysisMeasure.setId(None)
-        analysisMeasure.setResultsModel()
+        for breath_period in tqdm(range(analysis.min_breath_period, analysis.max_breath_period)):
+            measure = MeasureModel()
+            measure.limit(1)
+            measure.offset(0)
+            measure.order('id', 'ASC')
+            measure.where([('measure_type', MeasureModel.TYPE_GENERATE_EXTORTION, '='), ('breath_period', breath_period, '='), ('response_function', analysis.response_function, '=')])
+            measure.load()
+            measure.loadResults()
+            analysis.results.breath_period.append(measure.breath_period)
+            mean, sd = self.analyze_step(measure.results.heart_phase)
+            del measure
+            analysis.results.stdev.append(sd)
+            analysis.results.mean_rr.append(mean)
 
-        # @todo change structure
+        analysis.saveAll()
 
-        # breath rate and standard deviation
-        container = {'br': [], 'sd': [], 'av': []}
-        for row in results:
-            container['br'].append(int(row))
-            mean, sd = self.analyze_step(results[row]['heart'])
-            container['sd'].append(sd)
-            container['av'].append(mean)
+        #plt = Plotter()
+        #plt.plot_rr_sd(analysisMeasure.results.breath_period, analysisMeasure.results.mean_rr, analysisMeasure.results.stdev)
 
-        plt = Plotter()
-        plt.plot_rr_sd(container['br'], container['av'], container['sd'])
-
-        return container
+        return analysis
 
     def analyze_step(self, heart):
         #plt.plot(heart)

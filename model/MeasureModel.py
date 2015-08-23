@@ -142,3 +142,16 @@ class MeasureModel(Model):
         if reload:
             self.loadResults()
         return self.results
+
+    def saveAll(self):
+        """
+        Saves both object and results into database
+        :return:
+        """
+        if self.id is None:
+            self.id = self.save()
+        else:
+            self.save()
+        if self.results is not None:
+            self.results.setMeasureId(self.id)
+            self.results.save()

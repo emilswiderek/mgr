@@ -17,12 +17,12 @@ class SpectrumCollectionModel(Model):
         super(SpectrumCollectionModel, self).__init__()
         # spectrum table model:
         self.measure_id = None     # id of the measure in the measure table
-        self.mean_rr = None        # collection of the measure results
-        self.stdev = None          # collection of the measure results
-        self.breath_period = None  # collection of the measure setting for each result
+        self.mean_rr = []        # collection of the measure results
+        self.stdev = []          # collection of the measure results
+        self.breath_period = []  # collection of the measure setting for each result
 
     def load(self):
-        result = super(SpectrumCollectionModel, self).load()
+        result = super(SpectrumCollectionModel, self).load()  # @todo this
 
     def _insertSQL(self):
         self._validateInsert()
