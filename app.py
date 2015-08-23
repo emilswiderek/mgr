@@ -68,19 +68,26 @@ def run(option):
         measure.limit(1)
         measure.offset(0)
         measure.order('id', 'ASC')
+        measure.where([('measure_type', MeasureModel.TYPE_GENERATE_EXTORTION, '=')])
         measure.load()
 
-        #print("Restults analysis")
+        #for loop:
+        measure.results.limit(1000)
+        measure.results.offset(0)
+        measure.order('id', 'ASC')
+        measure.getMeasureResults(True)
 
-        #ExtortionAnalyzer = ExtortionSpectrumAnalyzer()
+        print("Restults analysis")
 
-        #ExtortionAnalyzer.analyze()
+        ExtortionAnalyzer = ExtortionSpectrumAnalyzer()
+
+        ExtortionAnalyzer.analyze(measure)
 
         return
 
 #multi generation happens here:
 
-responseFunctions = ['akselrod', 'sinus', 'halfSinus', 'forwarding']
+responseFunctions = ['akselrod']  #  , 'sinus', 'halfSinus', 'forwarding']
 
 hp.set_show_plots(False)
 hp.set_min_breath_period(100)

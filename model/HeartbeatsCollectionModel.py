@@ -21,10 +21,28 @@ class HeartbeatsCollectionModel(Model):
         self.breath_phase = None
 
     def load(self):
+        """
+        Loads data from database
+
+        :return:
+        """
         result = super(HeartbeatsCollectionModel, self).load()
+        return result
+
+        self.id = []
+        self.measure_id = []
+        self.heart_phase = []
+        self.breath_phase = []
+        for res in result:
+            self.id.append(res['id'])
+            self.measure_id.append(res['measure_id'])
+            self.heart_phase.append(res['heart_phase'])
+            self.breath_phase.append(res['breath_phase'])
+
+        return result
 
     def _insertSQL(self):
-        self._validate(self.ACTION_INSERT)
+        self._validateInsert()
         # due to the validation, we know that every parameter has to be the same type and not None:
         sql = "INSERT INTO mgr.heartbeats (measure_id, heart_phase, breath_phase) VALUES "
         if(isinstance(self.heart_phase, list)):
@@ -38,19 +56,19 @@ class HeartbeatsCollectionModel(Model):
         return self._prepareMysqlString(sql)
 
     def _updateSQL(self):
-        self._validate(self.ACTION_UPDATE)
+        self._validateUpdate()
         return ""
 
     def _removeSQL(self):
-        self._validate(self.ACTION_REMOVE)
+        self._validateRemove()
         return ""
 
     def _loadSQL(self):
-        self._validate(self.ACTION_LOAD)
-        return ""
+        self._validateLoad()
+        return "SELECT * FROM `mgr`.`heartbeats` "+self.sql_where+self.sql_order+self.sql_limit+self.sql_offset
 
     def _basicValidation(self, action):
-        if self.measure_id is None and self.id is None and self.heart_phase is None and self.breath_phase is None:
+        if self.measure_id is None and self.id is None and self.heart_phase is None and self.breath_phase is None and self.sql_where == "":
             raise Exception("DB_EXCEPTION: Tried to "+str(action)+" without any parameters set in model")
 
     def _validateInsert(self):
@@ -58,6 +76,9 @@ class HeartbeatsCollectionModel(Model):
         if self.measure_id is None or self.heart_phase is None or self.breath_phase is None:
             raise Exception("DB_EXCEPTION: Tried to insert incomplete object")
         self._compareAllTypes(list(["heart_phase", "breath_phase"]))
+
+    def _validateLoad(self):
+        pass
 
     def setMeasureId(self, measure_id):
         self.measure_id = measure_id

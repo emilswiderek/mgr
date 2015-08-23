@@ -30,6 +30,7 @@ class Database():
             self.cursor = False
 
     def execute(self, sql):
+        print(sql)
         self.connect()
         self.cursor.execute(sql)
         if "INSERT" in sql:

@@ -4,11 +4,6 @@ from model.database import Database
 
 class Model():
 
-    ACTION_REMOVE = "remove"
-    ACTION_INSERT = "insert"
-    ACTION_UPDATE = "update"
-    ACTION_LOAD = "load"
-
     def __init__(self):
         self.db = Database()
         self.id = None
@@ -27,7 +22,7 @@ class Model():
         return self.db.execute(sql)
 
     def remove(self):
-        self._validate(self.ACTION_REMOVE)
+        self._validateRemove()
 
         return self.db.execute(self._removeSQL())
 
@@ -36,8 +31,8 @@ class Model():
         Selects data from db with consideration of set constraints, and returns result
         :return:
         """
-        result = self.db.execute(self._loadSQL())
-        return result
+        self._validateLoad()
+        return self.db.execute(self._loadSQL())
 
     def _insertSQL(self):
         raise NotImplementedError("The main model object should be considered abstract and this method should be implemented in child")
@@ -50,20 +45,6 @@ class Model():
 
     def _loadSQL(self):
         raise NotImplementedError("The main model object should be considered abstract and this method should be implemented in child")
-
-    def _validate(self, action):
-        """
-        Checks if parameters are correct
-        :param action: Which action to validate?
-        :return:
-        """
-        self._basicValidation(action)
-        return {
-            self.ACTION_REMOVE: self._validateRemove(),
-            self.ACTION_INSERT: self._validateInsert(),
-            self.ACTION_LOAD: self._validateLoad(),
-            self.ACTION_UPDATE: self._validateUpdate(),
-        }[action]
 
     def _validateRemove(self):
         pass
@@ -144,8 +125,8 @@ class Model():
         """
         for constraint in constraints:
             if self.sql_where != "":
-                self.sql_where += "AND "+constraint[0]+" "+constraint[2]+" "+str(constraint[1])+" "
+                self.sql_where += "AND "+constraint[0]+" "+constraint[2]+" '"+str(constraint[1])+"' "
             else:
-                self.sql_where = "WHERE "+constraint[0]+" "+constraint[2]+" "+str(constraint[1])+" "
+                self.sql_where = "WHERE "+constraint[0]+" "+constraint[2]+" '"+str(constraint[1])+"' "
 
 

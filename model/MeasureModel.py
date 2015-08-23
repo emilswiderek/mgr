@@ -56,11 +56,11 @@ class MeasureModel(Model):
         self.breath_period = result[0]['breath_period']
         self.response_function = result[0]['response_function']
         self.updated_at = result[0]['updated_at']
-
+        self.setResultsModel()
         return result
 
     def _insertSQL(self):
-        self._validate(self.ACTION_INSERT)
+        self._validateInsert()
         # due to the validation, we know that every parameter has to be the same type and not None:
         sql = "INSERT INTO mgr.measure (measure_type, breath_period, heart_period, min_breath_period, max_breath_period, breath_number, response_function) VALUES "
         sql += "(\'"+str(self.measure_type)+"\', "+str(self.breath_period)+", "+str(self.heart_period)+", "+str(self.min_breath_period)+", "+str(self.max_breath_period)+", "+str(self.breath_number)+", \'"+str(self.response_function)+"\')"
@@ -68,15 +68,15 @@ class MeasureModel(Model):
         return self._prepareMysqlString(sql)
 
     def _updateSQL(self):
-        self._validate(self.ACTION_UPDATE)
+        self._validateUpdate()
         return ""
 
     def _removeSQL(self):
-        self._validate(self.ACTION_REMOVE)
+        self._validateRemove()
         return ""
 
     def _loadSQL(self):
-        #self._validate(self.ACTION_LOAD)
+        self._validateLoad()
         return "SELECT * FROM `mgr`.`measure` "+self.sql_where+self.sql_order+self.sql_limit+self.sql_offset
 
     def _basicValidation(self, action):
@@ -116,11 +116,13 @@ class MeasureModel(Model):
         if self.id is None or self.measure_type is None:
             raise Exception("DB_EXCEPTION: Incomplete object, id or measure_type missing")
 
-        self._setResultsModel()
+        if self.results is None:
+            self.setResultsModel()
+
         self.results.where([('measure_id', self.id, '=')])
         self.results.load()
 
-    def _setResultsModel(self):
+    def setResultsModel(self):
         """
         Based on the type of measurement, sets proper model for results
 
@@ -131,12 +133,12 @@ class MeasureModel(Model):
         elif self.measure_type == self.TYPE_ANALYZE_EXTORTION:
             self.results = SpectrumCollectionModel()
 
-    def getMeasureResults(self):
+    def getMeasureResults(self, reload=False):
         """
         Gets the results for this measurement from other table
 
         :return:
         """
-        if self.results is None:
+        if reload:
             self.loadResults()
         return self.results

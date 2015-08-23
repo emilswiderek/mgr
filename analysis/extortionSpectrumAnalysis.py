@@ -4,11 +4,28 @@ import numpy as np
 
 from helpers import helper as hp
 from analysis.plotter import Plotter
+from model.MeasureModel import MeasureModel
+import copy
 
 
 class ExtortionSpectrumAnalyzer:
 
-    def analyze(self, results):
+    def analyze(self, measure):
+        """
+
+        :param measure: MeasureModel
+        :return:
+        """
+        if not isinstance(measure, MeasureModel):
+            raise Exception("Analysis error, wrong input")
+
+        analysisMeasure = copy.copy(measure) # new measure, as analysis
+        analysisMeasure.setMeasureType(MeasureModel.TYPE_ANALYZE_EXTORTION)
+        analysisMeasure.setId(None)
+        analysisMeasure.setResultsModel()
+
+        # @todo change structure
+
         # breath rate and standard deviation
         container = {'br': [], 'sd': [], 'av': []}
         for row in results:

@@ -25,7 +25,7 @@ class SpectrumCollectionModel(Model):
         result = super(SpectrumCollectionModel, self).load()
 
     def _insertSQL(self):
-        self._validate(self.ACTION_INSERT)
+        self._validateInsert()
         # due to the validation, we know that every parameter has to be the same type and not None:
         sql = "INSERT INTO mgr.spectrum (measure_id, mean_rr, stdev, breath_period) VALUES "
         if(isinstance(self.mean_rr, list)):
@@ -39,15 +39,15 @@ class SpectrumCollectionModel(Model):
         return self._prepareMysqlString(sql)
 
     def _updateSQL(self):
-        self._validate(self.ACTION_UPDATE)
+        self._validateUpdate()
         return ""
 
     def _removeSQL(self):
-        self._validate(self.ACTION_REMOVE)
+        self._validateRemove()
         return ""
 
     def _loadSQL(self):
-        self._validate(self.ACTION_LOAD)
+        self._validateLoad()
         return ""
 
     def _basicValidation(self, action):
