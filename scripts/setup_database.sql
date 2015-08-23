@@ -45,3 +45,6 @@ CREATE TABLE `mgr`.`heartbeats` (
 
 ALTER TABLE `mgr`.`heartbeats`
 ADD INDEX `measure_id` (`measure_id` ASC);
+ADD INDEX `heart_phase` (`heart_phase` ASC),
+ADD INDEX `breath_phase` (`breath_phase` ASC);
+
