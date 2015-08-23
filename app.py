@@ -45,7 +45,7 @@ def run(option):
 
         return
 
-    elif option == 'gen_ext':
+    elif option == MeasureModel.TYPE_GENERATE_EXTORTION:
 
         hp.set_one_period(False)
 
@@ -59,19 +59,22 @@ def run(option):
 
         return
 
-    else:  # analyze_ext
+    elif option == MeasureModel.TYPE_ANALYZE_EXTORTION:  # analyze_ext
 
         hp.set_one_period(False)
 
-        print("Analiza wyników")
+        # we are selecting one measure in db:
+        measure = MeasureModel()
+        measure.limit(1)
+        measure.offset(0)
+        measure.order('id', 'ASC')
+        measure.load()
 
-        ExtortionAnalyzer = ExtortionSpectrumAnalyzer()
+        #print("Restults analysis")
 
-        storage = DataStorage()
+        #ExtortionAnalyzer = ExtortionSpectrumAnalyzer()
 
-        results = storage.load()
-
-        ExtortionAnalyzer.analyze(results)
+        #ExtortionAnalyzer.analyze()
 
         return
 
@@ -87,4 +90,4 @@ for resp in responseFunctions:
 
     hp.set_response_function(resp)
 
-    run("gen_ext")
+    run(MeasureModel.TYPE_ANALYZE_EXTORTION)

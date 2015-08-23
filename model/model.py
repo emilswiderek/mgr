@@ -12,6 +12,10 @@ class Model():
     def __init__(self):
         self.db = Database()
         self.id = None
+        self.sql_limit = ""
+        self.sql_offset = ""
+        self.sql_order = ""
+        self.sql_where = ""
 
     def save(self):
 
@@ -28,8 +32,11 @@ class Model():
         return self.db.execute(self._removeSQL())
 
     def load(self):
+        """
+        Selects data from db with consideration of set constraints, and returns result
+        :return:
+        """
         result = self.db.execute(self._loadSQL())
-        #self.id = result['id']
         return result
 
     def _insertSQL(self):
@@ -98,5 +105,47 @@ class Model():
 
     def _prepareMysqlString(self, query):
         return query.replace('None', 'NULL')
+
+    def limit(self, limit):
+        """
+        Add limit clause to sql
+
+        :param limit: string
+        :return:
+        """
+        self.sql_limit = "LIMIT "+str(limit)+" "
+
+    def offset(self, offset):
+        """
+        Add offset clause to sql
+        :param offset:
+        :return:
+        """
+        self.sql_offset = "OFFSET "+str(offset)+" "
+
+    def order(self, field, direction):
+        """
+        Add order by clause to sql
+
+        :param field:
+        :param direction:
+        :return:
+        """
+        if direction.upper() != "ASC" and direction.upper() != "DESC":
+            raise Exception("DB_EXCEPTION: wrong 'direction' provided in 'order by' clause: "+direction)
+        self.sql_order = "ORDER BY "+field+" "+direction+" "
+
+    def where(self, constraints):
+        """
+        Add where clause to sql
+
+        :param constraints: list of tuples [(field, value, comparator), (field, value, comparator)]
+        :return: void
+        """
+        for constraint in constraints:
+            if self.sql_where != "":
+                self.sql_where += "AND "+constraint[0]+" "+constraint[2]+" "+str(constraint[1])+" "
+            else:
+                self.sql_where = "WHERE "+constraint[0]+" "+constraint[2]+" "+str(constraint[1])+" "
 
 

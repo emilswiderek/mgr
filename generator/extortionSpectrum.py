@@ -30,7 +30,7 @@ class ExtortionSpectrumGenerator:
             measure.setResponseFunction(hp.response_function)
             measure.setMaxBreathPeriod(hp.max_breath_period)
             measure.setBreathNumber(hp.number_of_breaths)
-            measure.setMeasureType('gen_ext')
+            measure.setMeasureType(MeasureModel.TYPE_GENERATE_EXTORTION)
             measure.setBreathPeriod(breath_period)
             measureId = measure.save()
 

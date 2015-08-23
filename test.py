@@ -1,5 +1,4 @@
 __author__ = 'emil'
-import os
 from tests import breath_gen_test as bgt
 from tests import heart_gen_test as hgt
 from tests.responseFunctionTests import run_tests as response_function_tests
