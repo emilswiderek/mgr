@@ -3,6 +3,7 @@ from model.model import Model
 
 
 class SpectrumCollectionModel(Model):
+    TABLE_NAME = 'spectrum'
     """
         Model for spectrum table in database
         variables:
@@ -27,7 +28,7 @@ class SpectrumCollectionModel(Model):
     def _insertSQL(self):
         self._validateInsert()
         # due to the validation, we know that every parameter has to be the same type and not None:
-        sql = "INSERT INTO mgr.spectrum (measure_id, mean_rr, stdev, breath_period) VALUES "
+        sql = "INSERT INTO `"+self.db.db_name+"`.`"+self.TABLE_NAME+"` (measure_id, mean_rr, stdev, breath_period) VALUES "
         if(isinstance(self.mean_rr, list)):
             for i in range(0, len(self.mean_rr)):
                 sql += "("+str(self.measure_id)+", "+str(self.mean_rr[i])+", "+str(self.stdev[i])+", "+str(self.breath_period[i])+")"

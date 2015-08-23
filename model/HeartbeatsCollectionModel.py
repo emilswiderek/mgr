@@ -3,6 +3,7 @@ from model.model import Model
 
 
 class HeartbeatsCollectionModel(Model):
+    TABLE_NAME = 'heartbeats'
     """
         Model for spectrum table in database
         variables:
@@ -43,7 +44,7 @@ class HeartbeatsCollectionModel(Model):
     def _insertSQL(self):
         self._validateInsert()
         # due to the validation, we know that every parameter has to be the same type and not None:
-        sql = "INSERT INTO mgr.heartbeats (measure_id, heart_phase, breath_phase) VALUES "
+        sql = "INSERT INTO `"+self.db.db_name+"`.`"+self.TABLE_NAME+"` (measure_id, heart_phase, breath_phase) VALUES "
         if(isinstance(self.heart_phase, list)):
             for i in range(0, len(self.heart_phase)):
                 sql += "("+str(self.measure_id)+", "+str(self.heart_phase[i])+", "+str(self.breath_phase[i])+")"
@@ -64,7 +65,7 @@ class HeartbeatsCollectionModel(Model):
 
     def _loadSQL(self):
         self._validateLoad()
-        return "SELECT * FROM `mgr`.`heartbeats` "+self.sql_where+self.sql_order+self.sql_limit+self.sql_offset
+        return "SELECT * FROM `"+self.db.db_name+"`.`"+self.TABLE_NAME+"` "+self.sql_where+self.sql_order+self.sql_limit+self.sql_offset
 
     def _basicValidation(self, action):
         if self.measure_id is None and self.id is None and self.heart_phase is None and self.breath_phase is None and self.sql_where == "":

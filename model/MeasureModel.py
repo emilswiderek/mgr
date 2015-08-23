@@ -7,6 +7,7 @@ from model.spectrumCollectionModel import SpectrumCollectionModel
 class MeasureModel(Model):
     TYPE_GENERATE_EXTORTION = 'gen_ext'
     TYPE_ANALYZE_EXTORTION = 'analyze_ext'
+    TABLE_NAME = 'measure'
     """
         Model for measure table in database,
         one instance of object represents one row in the table
@@ -62,7 +63,7 @@ class MeasureModel(Model):
     def _insertSQL(self):
         self._validateInsert()
         # due to the validation, we know that every parameter has to be the same type and not None:
-        sql = "INSERT INTO mgr.measure (measure_type, breath_period, heart_period, min_breath_period, max_breath_period, breath_number, response_function) VALUES "
+        sql = "INSERT INTO `"+self.db.db_name+"`.`"+self.TABLE_NAME+"` (measure_type, breath_period, heart_period, min_breath_period, max_breath_period, breath_number, response_function) VALUES "
         sql += "(\'"+str(self.measure_type)+"\', "+str(self.breath_period)+", "+str(self.heart_period)+", "+str(self.min_breath_period)+", "+str(self.max_breath_period)+", "+str(self.breath_number)+", \'"+str(self.response_function)+"\')"
 
         return self._prepareMysqlString(sql)
@@ -77,7 +78,7 @@ class MeasureModel(Model):
 
     def _loadSQL(self):
         self._validateLoad()
-        return "SELECT * FROM `mgr`.`measure` "+self.sql_where+self.sql_order+self.sql_limit+self.sql_offset
+        return "SELECT * FROM `"+self.db.db_name+"`.`"+self.TABLE_NAME+"` "+self.sql_where+self.sql_order+self.sql_limit+self.sql_offset
 
     def _basicValidation(self, action):
         if self.breath_period is None and self.measure_type is None and self.heart_period is None and self.min_breath_period is None and self.id is None:
