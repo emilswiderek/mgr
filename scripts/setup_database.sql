@@ -44,7 +44,31 @@ CREATE TABLE `mgr`.`heartbeats` (
 
 
 ALTER TABLE `mgr`.`heartbeats`
-ADD INDEX `measure_id` (`measure_id` ASC);
+ADD INDEX `measure_id` (`measure_id` ASC),
 ADD INDEX `heart_phase` (`heart_phase` ASC),
 ADD INDEX `breath_phase` (`breath_phase` ASC);
 
+CREATE
+    ALGORITHM = UNDEFINED
+    DEFINER = `itplement`@`localhost`
+    SQL SECURITY DEFINER
+VIEW `generation_results` AS
+    (select
+        `m`.`measure_type` AS `measure_type`,
+        `m`.`breath_period` AS `breath_period`,
+        `m`.`heart_period` AS `heart_period`,
+        `m`.`min_breath_period` AS `min_breath_period`,
+        `m`.`max_breath_period` AS `max_breath_period`,
+        `m`.`breath_number` AS `breath_number`,
+        `m`.`response_function` AS `response_function`,
+        `h`.`id` AS `result_id`,
+        `h`.`heart_phase` AS `heart_phase`,
+        `h`.`measure_id` AS `measure_id`,
+        `h`.`breath_phase` AS `breath_phase`
+    from
+        (`measure` `m`
+        join `heartbeats` `h` ON ((`m`.`id` = `h`.`measure_id`)))
+    where
+        ((`m`.`measure_type` = 'gen_ext')
+            and (`h`.`breath_phase` = 1))
+    order by `h`.`id`)

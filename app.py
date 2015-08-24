@@ -77,12 +77,14 @@ def run(option):
         ExtortionAnalyzer = ExtortionSpectrumAnalyzer()
 
         ExtortionAnalyzer.analyze(analysis)
+        del analysis
+        del ExtortionAnalyzer
 
         return
 
 #multi generation happens here:
 
-responseFunctions = ['akselrod', 'sinus', 'halfSinus', 'forwarding']
+responseFunctions = ['halfSinus', 'sinus', 'forwarding', 'akselrod']
 
 hp.set_show_plots(False)
 hp.set_min_breath_period(100)
@@ -90,7 +92,9 @@ hp.set_max_breath_period(1200)
 
 for resp in responseFunctions:
     hp.set_response_function(resp)
-    for bp in [[100, 300], [300, 600], [600, 900], [900, 1200], [1200, 1500]]:
-        hp.set_min_breath_period(bp[0])
-        hp.set_max_breath_period(bp[1])
-        run(MeasureModel.TYPE_GENERATE_EXTORTION)
+    #for bp in [[100, 300]]:  #, [300, 600], [600, 900], [900, 1200], [1200, 1500]
+       # hp.set_min_breath_period(bp[0])
+       # hp.set_max_breath_period(bp[1])
+    hp.set_min_breath_period(100)
+    hp.set_max_breath_period(1200)
+    run(MeasureModel.TYPE_GENERATE_EXTORTION)
