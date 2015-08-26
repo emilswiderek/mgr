@@ -84,17 +84,19 @@ def run(option):
 
 #multi generation happens here:
 
-responseFunctions = ['halfSinus', 'sinus', 'forwarding', 'akselrod']
+responseFunctions = ['sinus', 'forwarding', 'akselrod', 'halfSinus']  # halfSinus
 
 hp.set_show_plots(False)
-hp.set_min_breath_period(100)
-hp.set_max_breath_period(1200)
+hp.set_min_breath_period(10)
+hp.set_max_breath_period(700)
 
 for resp in responseFunctions:
     hp.set_response_function(resp)
-    #for bp in [[100, 300]]:  #, [300, 600], [600, 900], [900, 1200], [1200, 1500]
-       # hp.set_min_breath_period(bp[0])
-       # hp.set_max_breath_period(bp[1])
-    hp.set_min_breath_period(100)
-    hp.set_max_breath_period(1200)
+    #for bp in [[100, 300], [300, 600], [600, 900], [900, 1200], [1200, 1500]]:
+    #hp.set_min_breath_period(bp[0])
+    #hp.set_max_breath_period(bp[1])
+    #hp.set_min_breath_period(100)
+    #hp.set_max_breath_period(1200)
     run(MeasureModel.TYPE_GENERATE_EXTORTION)
+    #hp.set_min_breath_period(10)
+    #hp.set_max_breath_period(700)

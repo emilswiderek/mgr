@@ -1,6 +1,6 @@
 __author__ = 'emil'
 from model.model import Model
-
+import time
 
 class HeartbeatsCollectionModel(Model):
     TABLE_NAME = 'heartbeats'
@@ -14,8 +14,8 @@ class HeartbeatsCollectionModel(Model):
         :var breath_period int|list
 
     """
-    def __init__(self):
-        super(HeartbeatsCollectionModel, self).__init__()
+    def __init__(self, db=None):
+        super(HeartbeatsCollectionModel, self).__init__(db)
         # heartbeats table model:
         self.measure_id = None     # id of the measure in the measure table
         self.heart_phase = None        # collection of the measure results

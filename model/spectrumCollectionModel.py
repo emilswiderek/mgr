@@ -14,8 +14,8 @@ class SpectrumCollectionModel(Model):
         :var breath_period int|list
 
     """
-    def __init__(self):
-        super(SpectrumCollectionModel, self).__init__()
+    def __init__(self, db=None):
+        super(SpectrumCollectionModel, self).__init__(db)
         # spectrum table model:
         self.measure_id = None     # id of the measure in the measure table
         self.mean_rr = []        # collection of the measure results

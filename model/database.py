@@ -40,3 +40,19 @@ class Database():
         self.connection.commit()
         self.disconnect()
         return result
+
+    def begin(self):
+        self.connect()
+        self.connection.begin()
+
+    def commit(self):
+        self.connection.commit()
+
+    def insert(self, sql, last_row_id=False):
+        self.connect()
+        self.cursor.execute(sql)
+        if last_row_id :
+            return self.cursor.lastrowid
+
+    def query(self, sql):
+        return self.cursor.execute(sql)

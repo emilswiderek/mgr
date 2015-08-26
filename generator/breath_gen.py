@@ -21,4 +21,4 @@ class BreathGenerator(Generator):
         process = []
         for x in range(0, hp.breath_period*hp.number_of_breaths):
             process.append(self.generate())
-        return process
+        return process  # @todo ~ hp.number_of_breaths * range(0, hp.breath_period) ?

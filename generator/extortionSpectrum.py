@@ -15,10 +15,14 @@ class ExtortionSpectrumGenerator:
         self.max_breath = hp.max_breath_period
 
     def generate(self):
-        for breath_period in tqdm(range(self.min_breath, self.max_breath)):
+        BreathGen = BreathGenerator()
+        HeartGen = HeartGenerator()
+        measure = MeasureModel()
+        heartbeats = HeartbeatsCollectionModel()
 
-            BreathGen = BreathGenerator()
-            HeartGen = HeartGenerator()
+        for breath_period in tqdm(range(self.min_breath, self.max_breath)):
+            measure.db.begin()
+
             HeartGen.setResponseFunction(HeartGen.getResponseFunction(hp.response_function))
 
             hp.set_breath_period(breath_period)
@@ -32,21 +36,21 @@ class ExtortionSpectrumGenerator:
             measure.setBreathNumber(hp.number_of_breaths)
             measure.setMeasureType(MeasureModel.TYPE_GENERATE_EXTORTION)
             measure.setBreathPeriod(breath_period)
-            measureId = measure.save()
 
-            del measure
 
-            breath = BreathGen.generateProcess()
 
-            del BreathGen
+            measureId = measure.save(True)
+
+            breath = BreathGen.generateProcess()  # may be faster
 
             HeartGen.setBreathFunction(breath)
+            HeartGen.generateProcess()
 
-            heartbeats = HeartbeatsCollectionModel()
+            heartbeats.setId(None)
             heartbeats.setMeasureId(measureId)
-            heartbeats.setHeartPhase(HeartGen.generateProcess())
+            heartbeats.setHeartPhase(HeartGen.process)
             heartbeats.setBreathPhase(breath)
+
             heartbeats.save()
 
-            del HeartGen
-            del heartbeats
+            measure.db.commit()

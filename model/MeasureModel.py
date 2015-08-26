@@ -25,8 +25,8 @@ class MeasureModel(Model):
         :var: response_function string
 
     """
-    def __init__(self):
-        super(MeasureModel, self).__init__()
+    def __init__(self, db=None):
+        super(MeasureModel, self).__init__(db)
         # measure table model:
         self.measure_type = None
         self.heart_period = None
@@ -88,9 +88,6 @@ class MeasureModel(Model):
         # check if object is not empty, everything except for id must be set:
         if self.breath_number is None or self.measure_type is None or self.heart_period is None :
             raise Exception("DB_EXCEPTION: Tried to insert incomplete object")
-
-    def setId(self, id):
-        self.id = id
 
     def setMeasureType(self, type):
         self.measure_type = type

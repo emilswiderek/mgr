@@ -4,22 +4,23 @@ from model.database import Database
 
 class Model():
 
-    def __init__(self):
-        self.db = Database()
+    def __init__(self, db=None):
+        if db is None:
+            self.db = Database()
+        else:
+            self.db = db
         self.id = None
         self.sql_limit = ""
         self.sql_offset = ""
         self.sql_order = ""
         self.sql_where = ""
 
-    def save(self):
+    def save(self, last_row_id=False):
 
         if self.id is None:
-            sql = self._insertSQL()
+            return self.db.insert(self._insertSQL(), last_row_id)
         else:
-            sql = self._updateSQL()
-
-        return self.db.execute(sql)
+            return self.db.execute(self._updateSQL())
 
     def remove(self):
         self._validateRemove()
@@ -32,7 +33,7 @@ class Model():
         :return:
         """
         self._validateLoad()
-        return self.db.execute(self._loadSQL())
+        return self.db.query(self._loadSQL())
 
     def _insertSQL(self):
         raise NotImplementedError("The main model object should be considered abstract and this method should be implemented in child")
@@ -128,5 +129,8 @@ class Model():
                 self.sql_where += "AND "+constraint[0]+" "+constraint[2]+" '"+str(constraint[1])+"' "
             else:
                 self.sql_where = "WHERE "+constraint[0]+" "+constraint[2]+" '"+str(constraint[1])+"' "
+
+    def setId(self, id):
+        self.id = id
 
 
