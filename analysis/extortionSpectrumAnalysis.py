@@ -27,7 +27,7 @@ class ExtortionSpectrumAnalyzer:
             measure.where([('measure_type', MeasureModel.TYPE_GENERATE_EXTORTION, '='), ('breath_period', breath_period, '='), ('response_function', analysis.response_function, '=')])
             measure.load()
 
-            measure.loadResults()
+            measure.results.where([])
             analysis.results.breath_period.append(measure.breath_period)
             mean, sd = self.analyze_step(measure.results.heart_phase)
             del measure
@@ -50,6 +50,8 @@ class ExtortionSpectrumAnalyzer:
 
         for element in range(0, len(indexes[0]) - 1):
             rr.append(indexes[0][element + 1] - indexes[0][element])
+        if len(rr) < 2:
+            return 0., 0.
 
         return statistics.mean(rr), statistics.stdev(rr)
 

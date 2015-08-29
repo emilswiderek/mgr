@@ -21,7 +21,8 @@ class ExtortionSpectrumGenerator:
         heartbeats = HeartbeatsCollectionModel()
 
         for breath_period in tqdm(range(self.min_breath, self.max_breath)):
-
+            HeartGen.phase_iterator = 0
+            BreathGen.phase_iterator = 0
             HeartGen.setResponseFunction(HeartGen.getResponseFunction(hp.response_function))
 
             hp.set_breath_period(breath_period)

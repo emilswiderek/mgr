@@ -88,7 +88,7 @@ responseFunctions = ['sinus', 'forwarding', 'akselrod', 'halfSinus']  # halfSinu
 
 hp.set_show_plots(False)
 hp.set_min_breath_period(10)
-hp.set_max_breath_period(700)
+hp.set_max_breath_period(1200)
 
 for resp in responseFunctions:
     hp.set_response_function(resp)

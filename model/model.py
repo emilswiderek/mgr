@@ -32,7 +32,7 @@ class Model():
         :return:
         """
         self._validateLoad()
-        return self.db.query(self._loadSQL())
+        return self.db.execute(self._loadSQL())
 
     def _insertSQL(self):
         raise NotImplementedError("The main model object should be considered abstract and this method should be implemented in child")
