@@ -97,6 +97,6 @@ for resp in responseFunctions:
     #hp.set_max_breath_period(bp[1])
     #hp.set_min_breath_period(100)
     #hp.set_max_breath_period(1200)
-    run(MeasureModel.TYPE_GENERATE_EXTORTION)
+    run(MeasureModel.TYPE_ANALYZE_EXTORTION)
     #hp.set_min_breath_period(10)
     #hp.set_max_breath_period(700)

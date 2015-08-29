@@ -1,6 +1,6 @@
-CREATE SCHEMA `mgr` DEFAULT CHARACTER SET utf8 COLLATE utf8_polish_ci ;
+CREATE SCHEMA `mgr2` DEFAULT CHARACTER SET utf8 COLLATE utf8_polish_ci ;
 
-CREATE TABLE `mgr`.`spectrum` (
+CREATE TABLE `mgr2`.`spectrum` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `measure_id` INT NULL,
   `mean_rr` FLOAT NULL,
@@ -9,7 +9,7 @@ CREATE TABLE `mgr`.`spectrum` (
   UNIQUE INDEX `id_UNIQUE` (`id` ASC),
   INDEX `measure_id` (`measure_id` ASC));
 
-CREATE TABLE `mgr`.`measure` (
+CREATE TABLE `mgr2`.`measure` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `measure_type` VARCHAR(255) NULL,
   `breath_period` INT NULL,
@@ -21,20 +21,20 @@ CREATE TABLE `mgr`.`measure` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC));
 
-ALTER TABLE `mgr`.`measure`
+ALTER TABLE `mgr2`.`measure`
 ADD INDEX `measure_type` (`measure_type` ASC),
 ADD INDEX `breath_period` (`breath_period` ASC),
 ADD INDEX `heart_period` (`heart_period` ASC),
 ADD INDEX `min_breath_period` (`min_breath_period` ASC),
 ADD INDEX `max_breath_period` (`max_breath_period` ASC);
 
-ALTER TABLE `mgr`.`spectrum`
+ALTER TABLE `mgr2`.`spectrum`
 ADD COLUMN `breath_period` INT NULL AFTER `stdev`;
 
-ALTER TABLE `mgr`.`measure`
+ALTER TABLE `mgr2`.`measure`
 ADD COLUMN `response_function` VARCHAR(255) NULL AFTER `updated_at`;
 
-CREATE TABLE `mgr`.`heartbeats` (
+CREATE TABLE `mgr2`.`heartbeats` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `heart_phase` INT NOT NULL,
   `measure_id` INT NOT NULL,
@@ -42,8 +42,8 @@ CREATE TABLE `mgr`.`heartbeats` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC));
 
-
-ALTER TABLE `mgr`.`heartbeats`
+ -- todo: after insertion:
+ALTER TABLE `mgr2`.`heartbeats`
 ADD INDEX `measure_id` (`measure_id` ASC),
 ADD INDEX `heart_phase` (`heart_phase` ASC),
 ADD INDEX `breath_phase` (`breath_phase` ASC);

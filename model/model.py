@@ -16,9 +16,8 @@ class Model():
         self.sql_where = ""
 
     def save(self, last_row_id=False):
-
         if self.id is None:
-            return self.db.insert(self._insertSQL(), last_row_id)
+            return self.db.execute(self._insertSQL())
         else:
             return self.db.execute(self._updateSQL())
 
