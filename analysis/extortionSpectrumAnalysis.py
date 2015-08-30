@@ -27,12 +27,11 @@ class ExtortionSpectrumAnalyzer:
             measure.where([('measure_type', MeasureModel.TYPE_GENERATE_EXTORTION, '='), ('breath_period', breath_period, '='), ('response_function', analysis.response_function, '=')])
             measure.load()
 
-            measure.results.where([])
             analysis.results.breath_period.append(measure.breath_period)
-            mean, sd = self.analyze_step(measure.results.heart_phase)
-            del measure
-            analysis.results.stdev.append(sd)
-            analysis.results.mean_rr.append(mean)
+            res = analysis.db.execute(self.analyze_sql(measure.id))
+            analysis.results.mean_rr.append(res[0]['mean'])  # when insufficient results this will be 0
+            analysis.results.stdev.append(res[0]['stdev'])
+
 
         analysis.saveAll()
         del analysis
@@ -55,24 +54,57 @@ class ExtortionSpectrumAnalyzer:
 
         return statistics.mean(rr), statistics.stdev(rr)
 
-    def analyze_sql(self, measure):
-        """
-
-        SELECT
-            *
-        FROM mgr.generation_results al
-        INNER JOIN mgr.generation_results al2
-            on (al.result_id = al2.result_id + 1 AND
-                al2.response_function = 'sinus'
-                AND al2.heart_period = 40
-                AND al2.breath_period BETWEEN 100 AND 1500
-            )
-        WHERE
-                al.response_function = 'sinus'
-                AND al.heart_period = 40
-                AND al.breath_period BETWEEN 100 AND 1500
-        ;
-        :param measure:
-        :return:
-        """
-        pass  # @todo instead of entire analyze make sql, so this will happen in database
+    def analyze_sql(self, measureId):
+        sql = """ SELECT
+                    -- calculate mean and standard deviation for each measurement:
+                        COALESCE(avg(result.diff), 0) as mean,
+	                    COALESCE(std(result.diff), 0) as stdev
+                    FROM
+                        (
+                        SELECT
+                            -- distance between following heartbeats:
+                            (diff.following_heartbeat_id - diff.id) as diff
+                        FROM (
+                            SELECT
+                                *,
+                                (
+                                    -- id of the next heat beat
+                                    SELECT
+                                        al2.id
+                                    FROM
+                                        (
+                                            -- extract all heartbeats
+                                            SELECT
+                                                *
+                                            FROM
+                                                mgr2.generation_results r
+                                            WHERE
+                                                r.heart_phase = """+str(hp.take_breath_in_phase)+"""
+                                                and r.measure_id = """+str(measureId)+"""
+                                            ORDER BY
+                                                r.id ASC
+                                        ) al2
+                                    WHERE
+                                        al2.id > al.id
+                                    LIMIT 1
+                                ) as following_heartbeat_id
+                            FROM
+                                (
+                                    -- we extract all heartbeats
+                                    SELECT
+                                        *
+                                    FROM
+                                        mgr2.generation_results r
+                                    WHERE
+                                        r.heart_phase = """+str(hp.take_breath_in_phase)+"""
+                                        and r.measure_id = """+str(measureId)+"""
+                                    ORDER BY
+                                        r.id ASC
+                                ) al
+                            ) diff
+                            WHERE
+                                -- last one is always null
+                                diff.following_heartbeat_id IS NOT NULL
+                        ) result
+                    """
+        return sql
