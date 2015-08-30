@@ -24,7 +24,7 @@ class ExtortionSpectrumAnalyzer:
             measure.limit(1)
             measure.offset(0)
             measure.order('id', 'ASC')
-            measure.where([('measure_type', MeasureModel.TYPE_GENERATE_EXTORTION, '='), ('breath_period', breath_period, '='), ('response_function', analysis.response_function, '=')])
+            measure.where([('measure_type', MeasureModel.TYPE_GENERATE_EXTORTION, '='), ('breath_period', breath_period, '='), ('response_function', analysis.response_function, '='), ('heart_period', hp.heart_period, '=')])
             measure.load()
 
             analysis.results.breath_period.append(measure.breath_period)

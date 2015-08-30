@@ -70,6 +70,7 @@ def run(option):
         analysis.setResponseFunction(hp.response_function)
         analysis.setBreathNumber(hp.number_of_breaths)
         analysis.setMeasureType(MeasureModel.TYPE_ANALYZE_EXTORTION)
+        analysis.setHeartPeriod(hp.heart_period)
         analysis.setResultsModel()
 
         print("Restults analysis for "+str(hp.response_function))
@@ -84,19 +85,18 @@ def run(option):
 
 #multi generation happens here:
 
-responseFunctions = ['sinus', 'forwarding', 'akselrod', 'halfSinus']  # halfSinus
-
+responseFunctions = ['sinus2', 'forwarding2', 'akselrodian', 'halfSinus2']
+# test cases: 'sinus2', 'forwarding2', 'akselrodian', 'halfSinus2'
+# learning cases: 'sinus', 'forwarding', 'akselrod', 'halfSinus'
 hp.set_show_plots(False)
 hp.set_min_breath_period(10)
 hp.set_max_breath_period(1200)
+hp.set_heart_period(200)
 
 for resp in responseFunctions:
     hp.set_response_function(resp)
-    #for bp in [[100, 300], [300, 600], [600, 900], [900, 1200], [1200, 1500]]:
-    #hp.set_min_breath_period(bp[0])
-    #hp.set_max_breath_period(bp[1])
-    #hp.set_min_breath_period(100)
-    #hp.set_max_breath_period(1200)
+    run(MeasureModel.TYPE_GENERATE_EXTORTION)
+
+for resp in responseFunctions:
+    hp.set_response_function(resp)
     run(MeasureModel.TYPE_ANALYZE_EXTORTION)
-    #hp.set_min_breath_period(10)
-    #hp.set_max_breath_period(700)

@@ -4,7 +4,10 @@ from responseFunction.sinusFunction import SinusFunction
 import helpers.helper as hp
 from generator.generator import Generator
 from responseFunction.halfSinusFunction import HalfSinusFunction
-
+from responseFunction.testingSample.AkselrodianFunction import Akselrodian
+from responseFunction.testingSample.SinusFunction2 import SinusFunction2
+from responseFunction.testingSample.HalfSinusFunction2 import HalfSinusFunction2
+from responseFunction.testingSample.ForwardingFunction2 import ForwardingFunction2
 
 class HeartGenerator(Generator):
     breathFunction = []
@@ -50,4 +53,8 @@ class HeartGenerator(Generator):
             'sinus': SinusFunction(),
             'akselrod': Akselrod(),
             'halfSinus': HalfSinusFunction(),
+            'sinus2': SinusFunction2(),
+            'akselrodian': Akselrodian(),
+            'halfSinus2': HalfSinusFunction2(),
+            'forwarding2': ForwardingFunction2()
         }[name]
