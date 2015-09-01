@@ -25,6 +25,18 @@ class SpectrumCollectionModel(Model):
     def load(self):
         result = super(SpectrumCollectionModel, self).load()  # @todo this
 
+        self.id = []
+        self.measure_id = []
+        self.mean_rr = []
+        self.stdev = []
+        for res in result:
+            self.id.append(res['id'])
+            self.measure_id.append(res['measure_id'])
+            self.stdev.append(res['stdev'])
+            self.mean_rr.append(res['mean_rr'])
+
+        return result
+
     def _insertSQL(self):
         self._validateInsert()
         # due to the validation, we know that every parameter has to be the same type and not None:
@@ -49,7 +61,7 @@ class SpectrumCollectionModel(Model):
 
     def _loadSQL(self):
         self._validateLoad()
-        return ""
+        return "SELECT * FROM `"+self.db.db_name+"`.`"+self.TABLE_NAME+"` "+self.sql_where+self.sql_order+self.sql_limit+self.sql_offset
 
     def _basicValidation(self, action):
         if self.breath_period is None and self.measure_id is None and self.mean_rr is None and self.stdev is None and self.id is None:

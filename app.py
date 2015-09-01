@@ -9,6 +9,7 @@ from model.MeasureModel import MeasureModel
 import helpers.helper as hp
 import os
 from model.HeartbeatsCollectionModel import HeartbeatsCollectionModel
+from analysis.network import Network
 
 import pprint
 
@@ -83,20 +84,24 @@ def run(option):
 
         return
 
-#multi generation happens here:
+    def multiGen():
+        #multi generation happens here:
 
-responseFunctions = ['sinus2', 'forwarding2', 'akselrodian', 'halfSinus2']
-# test cases: 'sinus2', 'forwarding2', 'akselrodian', 'halfSinus2'
-# learning cases: 'sinus', 'forwarding', 'akselrod', 'halfSinus'
-hp.set_show_plots(False)
-hp.set_min_breath_period(10)
-hp.set_max_breath_period(1200)
-hp.set_heart_period(200)
+        responseFunctions = ['sinus2', 'forwarding2', 'akselrodian', 'halfSinus2']
+        # test cases: 'sinus2', 'forwarding2', 'akselrodian', 'halfSinus2'
+        # learning cases: 'sinus', 'forwarding', 'akselrod', 'halfSinus'
+        hp.set_show_plots(False)
+        hp.set_min_breath_period(10)
+        hp.set_max_breath_period(1200)
+        hp.set_heart_period(200)
 
-for resp in responseFunctions:
-    hp.set_response_function(resp)
-    run(MeasureModel.TYPE_GENERATE_EXTORTION)
+        for resp in responseFunctions:
+            hp.set_response_function(resp)
+            run(MeasureModel.TYPE_GENERATE_EXTORTION)
 
-for resp in responseFunctions:
-    hp.set_response_function(resp)
-    run(MeasureModel.TYPE_ANALYZE_EXTORTION)
+        for resp in responseFunctions:
+            hp.set_response_function(resp)
+            run(MeasureModel.TYPE_ANALYZE_EXTORTION)
+
+net = Network()
+net.trainNetwork([])

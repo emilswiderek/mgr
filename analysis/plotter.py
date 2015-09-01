@@ -180,3 +180,9 @@ class Plotter():
             plt.show()
         else:
             plt.savefig(shp.get_storage_path()+"/division_by_x.png")
+
+    def plot_learning_output(self, data, functionName):
+        plt.clf()
+        plt.plot(data['x'], data[functionName])
+
+        plt.show()

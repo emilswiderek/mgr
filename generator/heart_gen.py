@@ -9,6 +9,7 @@ from responseFunction.testingSample.SinusFunction2 import SinusFunction2
 from responseFunction.testingSample.HalfSinusFunction2 import HalfSinusFunction2
 from responseFunction.testingSample.ForwardingFunction2 import ForwardingFunction2
 
+
 class HeartGenerator(Generator):
     breathFunction = []
     responseFunction = False
