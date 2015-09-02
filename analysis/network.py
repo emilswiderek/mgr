@@ -9,6 +9,7 @@ from model.MeasureModel import MeasureModel
 
 class Network():
     OUTPUT_NUMBER_OF_POINTS = 10
+    NUMBER_OF_NEURONS = 50
     LEARNING_RESPONSE_FUNCTIONS = ['sinus', 'forwarding', 'akselrod', 'halfSinus']
     TESTING_RESPONSE_FUNCTIONS = ['sinus2', 'akselrodian', 'halfSinus2', 'forwarding2']
 
@@ -21,14 +22,13 @@ class Network():
 
     def trainNetwork(self):
         """
-        Ćwiczenie sieci...
+        Neurolab doesnt work like it should
+        # How can i provide many training samples for it
+
         :param input:
         :return:
         """
         output = self.prepareExpectedOutput()
-        #print(output) # todo change library??? - check input as array
-        #plt = Plotter()
-        #plt.plot_learning_output(output, 'sinus')
 
         trainingSample = None
         target = np.ndarray(shape=(len(self.LEARNING_RESPONSE_FUNCTIONS), self.OUTPUT_NUMBER_OF_POINTS))
@@ -40,20 +40,15 @@ class Network():
             measure.loadResults()
             if trainingSample is None:
                 trainingSample = np.ndarray(shape=(len(self.LEARNING_RESPONSE_FUNCTIONS), len(measure.results.stdev)))
-            trainingSample[counter] = measure.results.stdev
-            target[counter] = output[respF]
+            trainingSample[counter] = measure.results.stdev  # results for one learning set
+            target[counter] = output[respF]  # target for one learning set
             counter += 1
 
-       # preparedSample = np.transpose(trainingSample)
-
-        #print(trainingSample)
-       # inp = trainingSample.reshape(len(trainingSample[0]), 1) # try without reshaping and then check
-       # print(inp)
         mi = trainingSample.min()
         ma = trainingSample.max()
-        self.network = nl.net.newff([[mi, ma]]*len(trainingSample[0]), [200, self.OUTPUT_NUMBER_OF_POINTS])
+        self.network = nl.net.newff([[mi, ma]]*len(trainingSample[0]), [self.NUMBER_OF_NEURONS, self.OUTPUT_NUMBER_OF_POINTS])
         self.network.trainf = nl.train.train_gd
-        self.network.train(trainingSample, target)  #  @todo check what happens here? tranposed????
+        self.network.train(trainingSample, target, goal=0.0001)  #  @todo check what happens here? tranposed????
 
         return True
 
