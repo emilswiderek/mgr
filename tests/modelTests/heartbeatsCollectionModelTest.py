@@ -13,7 +13,7 @@ class HeartbeatsCollectionModelTest(unittest.TestCase):
         obj.setBreathPhase(21)
 
         sql = obj._insertSQL()
-        testSQL = "INSERT INTO mgr.heartbeats (measure_id, heart_phase, breath_phase) VALUES (1, 20, 21)"
+        testSQL = "INSERT INTO `"+obj.db.db_name+"`.`"+obj.TABLE_NAME+"` (measure_id, heart_phase, breath_phase) VALUES (1, 20, 21)"
         self.assertEqual(testSQL, sql, "SQL one row insert error")
 
     def test_multiple_insert_sql(self):
@@ -23,7 +23,7 @@ class HeartbeatsCollectionModelTest(unittest.TestCase):
         obj.setBreathPhase([1, 2, 3])
 
         sql = obj._insertSQL()
-        testSQL = "INSERT INTO mgr.heartbeats (measure_id, heart_phase, breath_phase) VALUES (1, 1, 1), (1, 9, 2), (1, 11, 3)";
+        testSQL = "INSERT INTO `"+obj.db.db_name+"`.`"+obj.TABLE_NAME+"` (measure_id, heart_phase, breath_phase) VALUES (1, 1, 1), (1, 9, 2), (1, 11, 3)";
         self.assertEqual(testSQL, sql, "SQL multi row insert error")
 
 
