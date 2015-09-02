@@ -1,0 +1,2 @@
+Best network achieved with:
+Epoch: 200; Error: 0.002812978123819467;

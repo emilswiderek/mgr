@@ -59,7 +59,7 @@ class Network():
 
         return True
 
-    def prepareExpectedOutput(self):
+    def prepareExpectedOutput(self, learning=True):
         # remember to normalise
 
         hg = HeartGenerator()
@@ -67,7 +67,12 @@ class Network():
         x = np.linspace(0, hp.heart_period, self.OUTPUT_NUMBER_OF_POINTS)
         output = {}
 
-        for respFun in self.LEARNING_RESPONSE_FUNCTIONS:
+        if learning:
+            response_functions = self.LEARNING_RESPONSE_FUNCTIONS
+        else:
+            response_functions = self.TESTING_RESPONSE_FUNCTIONS
+
+        for respFun in response_functions:
             response_function = hg.getResponseFunction(respFun)
             output[respFun] = []
             for i in x:

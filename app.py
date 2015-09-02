@@ -10,6 +10,8 @@ import helpers.helper as hp
 import os
 from model.HeartbeatsCollectionModel import HeartbeatsCollectionModel
 from analysis.network import Network
+from analysis.plotter import Plotter
+
 
 import pprint
 
@@ -104,4 +106,12 @@ def run(option):
             run(MeasureModel.TYPE_ANALYZE_EXTORTION)
 
 net = Network()
-net.trainNetwork([])
+net.loadNetwork(True)  # load best network
+
+plt = Plotter()
+output = net.prepareExpectedOutput(False)  # expected output for testing series
+
+for respF in Network.TESTING_RESPONSE_FUNCTIONS:
+    out = net.getResults(respF)
+    plt.test_plot_network_result(out[0], output[respF], output['x'])
+net.saveNetwork()
