@@ -189,6 +189,8 @@ class Plotter():
 
     def test_plot_network_result(self, netOut, target, x):
         plt.clf()
+        plt.xlim(0, 1)
+        plt.ylim(-1, 1)
         plt.plot(x, netOut, 'r-')
         plt.plot(x, target, 'b-')
 

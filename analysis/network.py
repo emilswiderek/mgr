@@ -12,6 +12,10 @@ class Network():
     NUMBER_OF_NEURONS = 50
     LEARNING_RESPONSE_FUNCTIONS = ['sinus', 'forwarding', 'akselrod', 'halfSinus']
     TESTING_RESPONSE_FUNCTIONS = ['sinus2', 'akselrodian', 'halfSinus2', 'forwarding2']
+    NETWORK_SAVE_FILENAME = "network.net"
+    NETWORK_BEST_FILENAME = "results/network_best.net"
+    NETWORK_RETRAINING_CYCLES = 10
+    NETWORK_TRAINING_EPSILON = 0.5
 
     def __init__(self):
         """
@@ -47,8 +51,11 @@ class Network():
         mi = trainingSample.min()
         ma = trainingSample.max()
         self.network = nl.net.newff([[mi, ma]]*len(trainingSample[0]), [self.NUMBER_OF_NEURONS, self.OUTPUT_NUMBER_OF_POINTS])
-        self.network.trainf = nl.train.train_gd
-        self.network.train(trainingSample, target, goal=0.0001)  #  @todo check what happens here? tranposed????
+        self.network.trainf = nl.train.train_gda
+        for x in range(0, self.NETWORK_RETRAINING_CYCLES):
+            error = self.network.train(trainingSample, target, goal=0.0001)
+            if error[-1] < self.NETWORK_TRAINING_EPSILON:
+                break
 
         return True
 
@@ -70,9 +77,33 @@ class Network():
         return output
 
     def getResults(self, responseFunction):
+        """
+        Gets the network results for provided responseFunction(name)
+
+        NOTICE: Remember to train network first
+        :param responseFunction:
+        :return:
+        """
         measure = MeasureModel()
         measure.where([('measure_type', MeasureModel.TYPE_ANALYZE_EXTORTION, '='), ('response_function', responseFunction, '=')])
         measure.load()
         measure.loadResults()
         inp = np.array(measure.results.stdev)
         return self.network.sim(inp.reshape(1, len(measure.results.stdev)))
+
+    def saveNetwork(self):
+        """
+        Saves network to file
+        :return:
+        """
+        self.network.save(self.NETWORK_SAVE_FILENAME)
+
+    def loadNetwork(self, best=False):
+        """
+        Loads network from file, best network is stored in other directory and is only readable
+        :return:
+        """
+        if best:
+            self.network = nl.load(self.NETWORK_BEST_FILENAME)
+        else:
+            self.network = nl.load(self.NETWORK_SAVE_FILENAME)
