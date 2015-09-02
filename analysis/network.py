@@ -19,7 +19,7 @@ class Network():
         """
         self.network = None
 
-    def trainNetwork(self, input):
+    def trainNetwork(self):
         """
         Ćwiczenie sieci...
         :param input:
@@ -44,6 +44,8 @@ class Network():
             target[counter] = output[respF]
             counter += 1
 
+       # preparedSample = np.transpose(trainingSample)
+
         #print(trainingSample)
        # inp = trainingSample.reshape(len(trainingSample[0]), 1) # try without reshaping and then check
        # print(inp)
@@ -51,7 +53,7 @@ class Network():
         ma = trainingSample.max()
         self.network = nl.net.newff([[mi, ma]]*len(trainingSample[0]), [200, self.OUTPUT_NUMBER_OF_POINTS])
         self.network.trainf = nl.train.train_gd
-        self.network.train(trainingSample, target)  #  @todo check what happens here?
+        self.network.train(trainingSample, target)  #  @todo check what happens here? tranposed????
 
         return True
 
@@ -67,7 +69,15 @@ class Network():
             response_function = hg.getResponseFunction(respFun)
             output[respFun] = []
             for i in x:
-                output[respFun].append(response_function.getResponse(i)/hp.heart_period)
+                output[respFun].append(response_function.getResponse(i))
 
         output['x'] = x.astype(float)/float(hp.heart_period)
         return output
+
+    def getResults(self, responseFunction):
+        measure = MeasureModel()
+        measure.where([('measure_type', MeasureModel.TYPE_ANALYZE_EXTORTION, '='), ('response_function', responseFunction, '=')])
+        measure.load()
+        measure.loadResults()
+        inp = np.array(measure.results.stdev)
+        return self.network.sim(inp.reshape(1, len(measure.results.stdev)))

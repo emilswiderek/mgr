@@ -5,8 +5,14 @@ from tests.responseFunctionTests import run_tests as response_function_tests
 from tests.modelTests.spectrumCollectionModelTest import TestSpectrumCollectionModel
 from tests.modelTests.measureModelTest import TestMeasureModel
 from tests.modelTests.heartbeatsCollectionModelTest import HeartbeatsCollectionModelTest
+from tests.networkTest import NetworkTest
 
 print("-----------\nTests begin")
+print("--- \nNetwork testing:")
+netT = NetworkTest()
+netT.test_learning()
+
+
 print("--- \nModels testing:")
 spectrumModelTest = TestSpectrumCollectionModel()
 spectrumModelTest.test_insert_sql()

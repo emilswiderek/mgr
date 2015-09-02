@@ -186,3 +186,10 @@ class Plotter():
         plt.plot(data['x'], data[functionName])
 
         plt.show()
+
+    def test_plot_network_result(self, netOut, target, x):
+        plt.clf()
+        plt.plot(x, netOut, 'r-')
+        plt.plot(x, target, 'b-')
+
+        plt.show()
