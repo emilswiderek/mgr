@@ -8,6 +8,10 @@ from responseFunction.testingSample.AkselrodianFunction import Akselrodian
 from responseFunction.testingSample.SinusFunction2 import SinusFunction2
 from responseFunction.testingSample.HalfSinusFunction2 import HalfSinusFunction2
 from responseFunction.testingSample.ForwardingFunction2 import ForwardingFunction2
+from responseFunction.AkselrodBisFunction import AkselrodBisFunction
+from responseFunction.CosinusFunction import CosinusFunction
+from responseFunction.HalfSinusBisFunction import HalfSinusBisFunction
+from responseFunction.ForwardingBisFunction import ForwardingBisFunction
 
 
 class HeartGenerator(Generator):
@@ -57,5 +61,9 @@ class HeartGenerator(Generator):
             'sinus2': SinusFunction2(),
             'akselrodian': Akselrodian(),
             'halfSinus2': HalfSinusFunction2(),
-            'forwarding2': ForwardingFunction2()
+            'forwarding2': ForwardingFunction2(),
+            'forwardingBis': ForwardingBisFunction(),
+            'cosinus': CosinusFunction(),
+            'akselrodBis':AkselrodBisFunction(),
+            'halfSinusBis':HalfSinusBisFunction()
         }[name]

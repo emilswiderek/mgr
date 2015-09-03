@@ -45,8 +45,8 @@ CREATE TABLE `mgr2`.`heartbeats` (
  -- todo: after insertion:
 ALTER TABLE `mgr2`.`heartbeats`
 ADD INDEX `measure_id` (`measure_id` ASC),
-ADD INDEX `heart_phase` (`heart_phase` ASC),
-ADD INDEX `breath_phase` (`breath_phase` ASC);
+ADD INDEX `heart_phase` (`heart_phase` ASC);
+-- ADD INDEX `breath_phase` (`breath_phase` ASC);
 
 CREATE VIEW `generation_results` AS (
 	SELECT

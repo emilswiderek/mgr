@@ -11,7 +11,7 @@ import os
 from model.HeartbeatsCollectionModel import HeartbeatsCollectionModel
 from analysis.network import Network
 from analysis.plotter import Plotter
-
+from model.database import Database
 
 import pprint
 
@@ -105,13 +105,37 @@ def run(option):
             hp.set_response_function(resp)
             run(MeasureModel.TYPE_ANALYZE_EXTORTION)
 
-net = Network()
-net.loadNetwork(True)  # load best network
+def network():
+    net = Network()
+    net.loadNetwork(True)  # load best network
 
-plt = Plotter()
-output = net.prepareExpectedOutput(False)  # expected output for testing series
+    plt = Plotter()
+    output = net.prepareExpectedOutput(False)  # expected output for testing series
 
-for respF in Network.TESTING_RESPONSE_FUNCTIONS:
-    out = net.getResults(respF)
-    plt.test_plot_network_result(out[0], output[respF], output['x'])
-net.saveNetwork()
+    for respF in Network.TESTING_RESPONSE_FUNCTIONS:
+        out = net.getResults(respF)
+        plt.test_plot_network_result(out[0], output[respF], output['x'])
+    net.saveNetwork()
+
+responseFunctions = ['forwardingBis',  'cosinus', 'akselrodBis', 'halfSinusBis']
+
+# NEW learning functions: 'forwardingBis',  'cosinus', 'akselrodBis', 'halfSinusBis'
+# test cases: 'sinus2', 'forwarding2', 'akselrodian', 'halfSinus2'
+# learning cases: 'sinus', 'forwarding', 'akselrod', 'halfSinus'
+
+hp.set_show_plots(False)
+hp.set_min_breath_period(10)
+hp.set_max_breath_period(1200)
+hp.set_heart_period(200)
+#remember that we are adding this to different table!
+for resp in responseFunctions:
+    hp.set_response_function(resp)
+    run(MeasureModel.TYPE_GENERATE_EXTORTION)
+sql = """
+    ALTER TABLE `mgr2`.`heartbeatsBis`
+    ADD INDEX `measure_id` (`measure_id` ASC),
+    ADD INDEX `heart_phase` (`heart_phase` ASC);
+      """'sinus2', 'forwarding2', 'akselrodian', 'halfSinus2'
+
+db = Database()
+print(db.execute(sql))

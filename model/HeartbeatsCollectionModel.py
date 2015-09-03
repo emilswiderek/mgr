@@ -3,7 +3,7 @@ from model.model import Model
 import time
 
 class HeartbeatsCollectionModel(Model):
-    TABLE_NAME = 'heartbeats'
+    TABLE_NAME = 'heartbeatsBis'  # only for cosinus and Bis functions!
     """
         Model for spectrum table in database
         variables:
