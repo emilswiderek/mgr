@@ -135,7 +135,7 @@ sql = """
     ALTER TABLE `mgr2`.`heartbeatsBis`
     ADD INDEX `measure_id` (`measure_id` ASC),
     ADD INDEX `heart_phase` (`heart_phase` ASC);
-      """'sinus2', 'forwarding2', 'akselrodian', 'halfSinus2'
+      """
 
 db = Database()
 print(db.execute(sql))
