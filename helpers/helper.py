@@ -13,6 +13,19 @@ map_fitting_degree = 10
 show_plots = False
 one_period = True
 
+#training params(default):
+train_show = 100
+train_epochs = 500
+train_goal = 0.01
+train_lr = 0.01
+train_adapt = False
+train_lr_inc = 1.05
+train_lr_dec = 0.7
+train_max_perf_inc = 1.04
+
+#network params:
+network_number_of_neurons = 50
+
 
 def set_number_of_breaths(newVal):
     """

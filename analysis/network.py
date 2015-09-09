@@ -5,17 +5,18 @@ import numpy as np
 from generator.heart_gen import HeartGenerator
 from analysis.plotter import Plotter
 from model.MeasureModel import MeasureModel
+import math
 
 
 class Network():
     OUTPUT_NUMBER_OF_POINTS = 10
     NUMBER_OF_NEURONS = 50
-    LEARNING_RESPONSE_FUNCTIONS = ['sinus', 'forwarding', 'akselrod', 'halfSinus']
+    LEARNING_RESPONSE_FUNCTIONS = ['sinus', 'forwarding', 'akselrod', 'halfSinus','forwardingBis', 'cosinus', 'akselrodBis', 'halfSinusBis']
     TESTING_RESPONSE_FUNCTIONS = ['sinus2', 'akselrodian', 'halfSinus2', 'forwarding2']
     NETWORK_SAVE_FILENAME = "network.net"
     NETWORK_BEST_FILENAME = "results/network_best.net"
-    NETWORK_RETRAINING_CYCLES = 10
-    NETWORK_TRAINING_EPSILON = 0.5
+    NETWORK_RETRAINING_CYCLES = 1
+    NETWORK_TRAINING_EPSILON = 9.25
 
     def __init__(self):
         """
@@ -23,6 +24,7 @@ class Network():
         :return:
         """
         self.network = None
+        #self.NUMBER_OF_NEURONS = int(math.sqrt(math.pow(1190, 2) + math.pow(self.OUTPUT_NUMBER_OF_POINTS, 2)))
 
     def trainNetwork(self):
         """
@@ -53,7 +55,7 @@ class Network():
         self.network = nl.net.newff([[mi, ma]]*len(trainingSample[0]), [self.NUMBER_OF_NEURONS, self.OUTPUT_NUMBER_OF_POINTS])
         self.network.trainf = nl.train.train_gda
         for x in range(0, self.NETWORK_RETRAINING_CYCLES):
-            error = self.network.train(trainingSample, target, goal=0.0001)
+            error = self.network.train(trainingSample, target, goal=hp.train_goal, lr=hp.train_lr, adapt=hp.train_adapt, lr_inc=hp.train_lr_inc, lr_dec=hp.train_lr_dec, max_perf_inc=hp.train_max_perf_inc, show=hp.train_show)
             if error[-1] < self.NETWORK_TRAINING_EPSILON:
                 break
 
@@ -96,19 +98,29 @@ class Network():
         inp = np.array(measure.results.stdev)
         return self.network.sim(inp.reshape(1, len(measure.results.stdev)))
 
-    def saveNetwork(self):
+    def saveNetwork(self, filename=None):
         """
         Saves network to file
         :return:
         """
-        self.network.save(self.NETWORK_SAVE_FILENAME)
+        if filename is None:
+            filename = self.NETWORK_SAVE_FILENAME
 
-    def loadNetwork(self, best=False):
+        self.network.save(filename)
+
+    def loadNetwork(self, best=False, filename=None):
         """
         Loads network from file, best network is stored in other directory and is only readable
         :return:
         """
-        if best:
-            self.network = nl.load(self.NETWORK_BEST_FILENAME)
-        else:
-            self.network = nl.load(self.NETWORK_SAVE_FILENAME)
+        if filename is None and best:
+            filename = self.NETWORK_BEST_FILENAME
+        elif filename is None and not best:
+            filename = self.NETWORK_SAVE_FILENAME
+
+
+        self.network = nl.load(filename)
+
+    def setNumberOfNeurons(self, val):
+        self.NUMBER_OF_NEURONS = val
+        hp.network_number_of_neurons = val

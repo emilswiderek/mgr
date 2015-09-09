@@ -187,11 +187,18 @@ class Plotter():
 
         plt.show()
 
-    def test_plot_network_result(self, netOut, target, x):
+    def test_plot_network_result(self, netOut, target, x, dist, respF):
         plt.clf()
         plt.xlim(0, 1)
         plt.ylim(-1, 1)
-        plt.plot(x, netOut, 'r-')
-        plt.plot(x, target, 'b-')
 
-        plt.show()
+        line1, = plt.plot(x, netOut, 'r-', label="Odpowiedź sieci neuronowej")
+        line2, = plt.plot(x, target, 'b-', label="Krzywa odpowiedzi fazowej")
+        plt.legend([line1, line2])
+        plt.xlabel("Faza rytmu serca "+dist)
+        plt.ylabel("Przyrost fazy")
+        if self.show:
+            plt.show()
+        else:
+            filename = "net_ep"+str(hp.train_epochs)+"_g"+str(hp.train_goal)+"_lr"+str(hp.train_lr)+"_a"+str(hp.train_adapt)+"_lr_inc"+str(hp.train_lr_inc)+"_lr_dec"+str(hp.train_lr_dec)+"_mxpi"+str(hp.train_max_perf_inc)+".png"
+            plt.savefig("results/"+respF+filename)
