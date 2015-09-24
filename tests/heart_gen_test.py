@@ -1,7 +1,7 @@
 # test if distances between breaths are equal
 import unittest
 
-import generator.heart_gen as hg
+import generator.HeartGenerator as hg
 import helpers.helper as hp
 import responseFunction.forwardingFunction as ff
 

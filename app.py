@@ -14,6 +14,8 @@ from analysis.plotter import Plotter
 from model.database import Database
 import pprint
 from vendor.tqdm.tqdm import *
+import helpers.networkStorageHelper as nshp
+
 
 # options:
 # 'gen_ext' - generate extortion spectrum and save it in the storage file
@@ -86,24 +88,24 @@ def run(option):
 
         return
 
-    def multiGen():
-        #multi generation happens here:
+def multiGen():
+    #multi generation happens here:
 
-        responseFunctions = ['sinus', 'forwarding', 'akselrod', 'halfSinus', 'forwardingBis', 'cosinus', 'akselrodBis', 'halfSinusBis']
-        # test cases: 'sinus2', 'forwarding2', 'akselrodian', 'halfSinus2'
-        # learning cases: 'sinus', 'forwarding', 'akselrod', 'halfSinus','forwardingBis', 'cosinus','akselrodBis','halfSinusBis'
-        hp.set_show_plots(False)
-        hp.set_min_breath_period(10)
-        hp.set_max_breath_period(1200)
-        hp.set_heart_period(200)
+    responseFunctions = ['sinus', 'forwarding', 'akselrod', 'halfSinus', 'forwardingBis', 'cosinus', 'akselrodBis', 'halfSinusBis']
+    # test cases: 'sinus2', 'forwarding2', 'akselrodian', 'halfSinus2'
+    # learning cases: 'sinus', 'forwarding', 'akselrod', 'halfSinus','forwardingBis', 'cosinus','akselrodBis','halfSinusBis'
+    hp.set_show_plots(False)
+    hp.set_min_breath_period(10)
+    hp.set_max_breath_period(1200)
+    hp.set_heart_period(200)
 
-        for resp in responseFunctions:
-            hp.set_response_function(resp)
-            run(MeasureModel.TYPE_GENERATE_EXTORTION)
+    for resp in responseFunctions:
+        hp.set_response_function(resp)
+        run(MeasureModel.TYPE_GENERATE_EXTORTION)
 
-        for resp in responseFunctions:
-            hp.set_response_function(resp)
-            run(MeasureModel.TYPE_ANALYZE_EXTORTION)
+    for resp in responseFunctions:
+        hp.set_response_function(resp)
+        run(MeasureModel.TYPE_ANALYZE_EXTORTION)
 
 
 def networkTest(best=False, learningSample=False, filename=None):
@@ -165,17 +167,17 @@ def networkLearnAndTest(neurons):
     return dist, dist_from_prev, net
 
 
-def runNetwork():
+def runNetwork(neurons):
     print("net_ep"+str(hp.train_epochs)+"_g"+str(hp.train_goal)+"_lr"+str(hp.train_lr)+"_a"+str(hp.train_adapt)+"_lr_inc"+str(hp.train_lr_inc)+"_lr_dec"+str(hp.train_lr_dec)+"_mxpi"+str(hp.train_max_perf_inc))
     counter = 0
     bestResults = []
-    for neurons in tqdm(range(40, 60)):
-        while counter < 10:
-            dist, dist_from_prev, net = networkLearnAndTest(neurons)
-            if dist <= 8.0 and dist_from_prev > 0.13:
-                print('Added: dist: '+str(dist)+" dist prev: "+str(dist_from_prev)+" neur: "+str(neurons))
-                bestResults.append({'dist': dist, 'dist_from_prev': dist_from_prev, 'net': net, 'neurons': neurons})
-            counter += 1
+
+    while counter < 10:
+        dist, dist_from_prev, net = networkLearnAndTest(neurons)
+        if dist <= 8.0 and dist_from_prev > 0.13:
+            print('Added: dist: '+str(dist)+" dist prev: "+str(dist_from_prev)+" neur: "+str(neurons))
+            bestResults.append({'dist': dist, 'dist_from_prev': dist_from_prev, 'net': net, 'neurons': neurons})
+        counter += 1
 
     print(bestResults)
 
@@ -196,16 +198,19 @@ def runNetwork():
 
     net = bestResults[bestId]['net']
     filename = "net_ep"+str(hp.train_epochs)+"_g"+str(hp.train_goal)+"_lr"+str(hp.train_lr)+"_a"+str(hp.train_adapt)+"_lr_inc"+str(hp.train_lr_inc)+"_lr_dec"+str(hp.train_lr_dec)+"_mxpi"+str(hp.train_max_perf_inc)+".net"
-    net.saveNetwork("results/"+filename)
+    nshp.init_results_subfolder()
+    net.saveNetwork(nshp.get_storage_path()+filename)
 
-    networkTest(False, False, "results/"+filename)
+    networkTest(False, False, nshp.get_storage_path()+filename)
 
+
+# v2
 
 
 hp.train_show = 0
-for goal in [0.1, 0.01, 0.001, 0.0001, 0.00001, 0.000001]:
+for goal in tqdm([0.001, 0.0001]):
     hp.train_goal = goal
-    for lr in [0.1, 0.01, 0.001, 0.0001, 0.00001, 0.000001]:
+    for lr in [0.01, 0.001, 0.0001, 0.00001, 0.000001]:
         hp.train_lr = lr
         for lr_inc in [1.01, 1.001, 1.0001, 1.02, 1.021, 1.25, 1.3, 1.4, 1.5]:
             hp.train_lr_inc = lr_inc
@@ -213,4 +218,53 @@ for goal in [0.1, 0.01, 0.001, 0.0001, 0.00001, 0.000001]:
                 hp.train_lr_dec = lr_dec
                 for max_perf_inc in [1.0, 1.01, 1.02, 1.03, 1.04, 1.045, 1.05, 1.06, 1.1, 1.4, 1.5]:
                     hp.train_max_perf_inc = max_perf_inc
-                    runNetwork()
+                    for neurons in range(40, 60):
+                        runNetwork(neurons)
+
+exit(1)
+
+# v1
+hp.train_show = 0
+for goal in tqdm([0.01]):
+    hp.train_goal = goal
+    for lr in [0.01, 0.001, 0.0001, 0.00001, 0.000001]:
+        hp.train_lr = lr
+        for lr_inc in [1.01, 1.001, 1.0001, 1.02, 1.021, 1.25, 1.3, 1.4, 1.5]:
+            hp.train_lr_inc = lr_inc
+            for lr_dec in [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]:
+                hp.train_lr_dec = lr_dec
+                for max_perf_inc in [1.02, 1.03, 1.04, 1.045, 1.05, 1.06, 1.1, 1.4, 1.5]:
+                    hp.train_max_perf_inc = max_perf_inc
+                    for neurons in range(40, 60):
+                        runNetwork(neurons)
+exit(1)
+#v3
+
+hp.train_show = 0
+for goal in tqdm([0.000001]):
+    hp.train_goal = goal
+    for lr in [0.01, 0.001, 0.0001, 0.00001, 0.000001]:
+        hp.train_lr = lr
+        for lr_inc in [1.01, 1.001, 1.0001, 1.02, 1.021, 1.25, 1.3, 1.4, 1.5]:
+            hp.train_lr_inc = lr_inc
+            for lr_dec in [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]:
+                hp.train_lr_dec = lr_dec
+                for max_perf_inc in [1.0, 1.01, 1.02, 1.03, 1.04, 1.045, 1.05, 1.06, 1.1, 1.4, 1.5]:
+                    hp.train_max_perf_inc = max_perf_inc
+                    for neurons in range(40, 60):
+                        runNetwork(neurons)
+exit(1)
+    # v1
+hp.train_show = 0
+for goal in tqdm([0.01]):
+    hp.train_goal = goal
+    for lr in [0.01, 0.001, 0.0001, 0.00001, 0.000001]:
+        hp.train_lr = lr
+        for lr_inc in [1.01, 1.001, 1.0001, 1.02, 1.021, 1.25, 1.3, 1.4, 1.5]:
+            hp.train_lr_inc = lr_inc
+            for lr_dec in [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]:
+                hp.train_lr_dec = lr_dec
+                for max_perf_inc in [1.02, 1.03, 1.04, 1.045, 1.05, 1.06, 1.1, 1.4, 1.5]:
+                    hp.train_max_perf_inc = max_perf_inc
+                    for neurons in range(40, 60):
+                        runNetwork(neurons)

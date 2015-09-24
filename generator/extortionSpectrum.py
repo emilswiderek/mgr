@@ -1,7 +1,7 @@
 __author__ = 'emil'
 from helpers import helper as hp
-from generator.breath_gen import BreathGenerator
-from generator.heart_gen import HeartGenerator
+from generator.BreathGenerator import BreathGenerator
+from generator.HeartGenerator import HeartGenerator
 from model.MeasureModel import MeasureModel
 from model.HeartbeatsCollectionModel import HeartbeatsCollectionModel
 import time  #  tqdm needs it

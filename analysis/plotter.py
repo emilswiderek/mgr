@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 
 import helpers.helper as hp
 import helpers.storageHelper as shp
-
+import helpers.networkStorageHelper as nshp
 
 class Plotter():
 
@@ -200,5 +200,6 @@ class Plotter():
         if self.show:
             plt.show()
         else:
+            nshp.init_results_subfolder()
             filename = "net_ep"+str(hp.train_epochs)+"_g"+str(hp.train_goal)+"_lr"+str(hp.train_lr)+"_a"+str(hp.train_adapt)+"_lr_inc"+str(hp.train_lr_inc)+"_lr_dec"+str(hp.train_lr_dec)+"_mxpi"+str(hp.train_max_perf_inc)+".png"
-            plt.savefig("results/"+respF+filename)
+            plt.savefig(nshp.get_storage_path()+respF+filename)

@@ -3,7 +3,7 @@ import numpy as np
 
 import helpers.helper as hp
 from analysis.plotter import Plotter
-from generator.heart_gen import HeartGenerator
+from generator.HeartGenerator import HeartGenerator
 from helpers.dataStorage import DataStorage
 
 

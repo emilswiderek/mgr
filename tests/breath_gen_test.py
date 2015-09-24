@@ -1,6 +1,6 @@
 # test if distances between breaths are equal
 import unittest
-import generator.breath_gen as bg
+import generator.BreathGenerator as bg
 import helpers.helper as hp
 
 

@@ -1,5 +1,5 @@
-from generator.breath_gen import BreathGenerator
-from generator.heart_gen import HeartGenerator
+from generator.BreathGenerator import BreathGenerator
+from generator.HeartGenerator import HeartGenerator
 from helpers import helper as hp
 
 

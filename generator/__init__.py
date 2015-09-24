@@ -1,4 +1,4 @@
-import generator.breath_gen
+import generator.BreathGenerator
 #wszystko zaimportować
 
 import configparser
