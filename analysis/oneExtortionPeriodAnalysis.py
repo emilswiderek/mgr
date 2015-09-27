@@ -5,7 +5,7 @@ __author__ = 'emil'
 import numpy as np
 from helpers import helper as hp
 from analysis.phaseDifferences import PhaseDifferences
-from analysis.plotter import Plotter
+from analysis.ploter import Plotter
 
 
 class Analyzer:

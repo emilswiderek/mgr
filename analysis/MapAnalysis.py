@@ -2,7 +2,7 @@ __author__ = 'emil'
 import numpy as np
 
 import helpers.helper as hp
-from analysis.plotter import Plotter
+from analysis.ploter import Plotter
 from generator.HeartGenerator import HeartGenerator
 from helpers.dataStorage import DataStorage
 

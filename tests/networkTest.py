@@ -1,7 +1,7 @@
 __author__ = 'emil'
 from analysis.network import Network
 import unittest
-from analysis.plotter import Plotter
+from analysis.ploter import Plotter
 
 
 class NetworkTest(unittest.TestCase):

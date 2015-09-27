@@ -3,7 +3,7 @@ import neurolab as nl
 import helpers.helper as hp
 import numpy as np
 from generator.HeartGenerator import HeartGenerator
-from analysis.plotter import Plotter
+from analysis.ploter import Plotter
 from model.MeasureModel import MeasureModel
 import math
 

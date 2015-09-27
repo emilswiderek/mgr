@@ -2,16 +2,16 @@ __author__ = 'emil'
 from model.model import Model
 import time
 
+
 class HeartbeatsCollectionModel(Model):
     TABLE_NAME = 'heartbeatsBis'  # only for cosinus and Bis functions!
     """
-        Model for spectrum table in database
+        Model for heartbeats table in database
         variables:
         :var id list|int id of the point
         :var measure_id list|int id of the measurement in the 'measure' table
-        :var mean_rr list|float
-        :var stdev list|float
-        :var breath_period int|list
+        :var heart_phase list|float
+        :var breath_phase list|float
 
     """
     def __init__(self, db=None):

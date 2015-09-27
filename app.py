@@ -10,7 +10,7 @@ import helpers.helper as hp
 import os
 from model.HeartbeatsCollectionModel import HeartbeatsCollectionModel
 from analysis.network import Network
-from analysis.plotter import Plotter
+from analysis.ploter import Plotter
 from model.database import Database
 import pprint
 from vendor.tqdm.tqdm import *
@@ -204,40 +204,9 @@ def runNetwork(neurons):
     networkTest(False, False, nshp.get_storage_path()+filename)
 
 
-# v2
 
 
-hp.train_show = 0
-for goal in tqdm([0.001, 0.0001]):
-    hp.train_goal = goal
-    for lr in [0.01, 0.001, 0.0001, 0.00001, 0.000001]:
-        hp.train_lr = lr
-        for lr_inc in [1.01, 1.001, 1.0001, 1.02, 1.021, 1.25, 1.3, 1.4, 1.5]:
-            hp.train_lr_inc = lr_inc
-            for lr_dec in [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]:
-                hp.train_lr_dec = lr_dec
-                for max_perf_inc in [1.0, 1.01, 1.02, 1.03, 1.04, 1.045, 1.05, 1.06, 1.1, 1.4, 1.5]:
-                    hp.train_max_perf_inc = max_perf_inc
-                    for neurons in range(40, 60):
-                        runNetwork(neurons)
 
-exit(1)
-
-# v1
-hp.train_show = 0
-for goal in tqdm([0.01]):
-    hp.train_goal = goal
-    for lr in [0.01, 0.001, 0.0001, 0.00001, 0.000001]:
-        hp.train_lr = lr
-        for lr_inc in [1.01, 1.001, 1.0001, 1.02, 1.021, 1.25, 1.3, 1.4, 1.5]:
-            hp.train_lr_inc = lr_inc
-            for lr_dec in [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]:
-                hp.train_lr_dec = lr_dec
-                for max_perf_inc in [1.02, 1.03, 1.04, 1.045, 1.05, 1.06, 1.1, 1.4, 1.5]:
-                    hp.train_max_perf_inc = max_perf_inc
-                    for neurons in range(40, 60):
-                        runNetwork(neurons)
-exit(1)
 #v3
 
 hp.train_show = 0
@@ -268,3 +237,18 @@ for goal in tqdm([0.01]):
                     hp.train_max_perf_inc = max_perf_inc
                     for neurons in range(40, 60):
                         runNetwork(neurons)
+# v1
+hp.train_show = 0
+for goal in tqdm([0.001]):
+    hp.train_goal = goal
+    for lr in [0.01, 0.001, 0.0001, 0.00001, 0.000001]:
+        hp.train_lr = lr
+        for lr_inc in [1.01, 1.001, 1.0001, 1.02, 1.021, 1.25, 1.3, 1.4, 1.5]:
+            hp.train_lr_inc = lr_inc
+            for lr_dec in [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]:
+                hp.train_lr_dec = lr_dec
+                for max_perf_inc in [1.02, 1.03, 1.04, 1.045, 1.05, 1.06, 1.1, 1.4, 1.5]:
+                    hp.train_max_perf_inc = max_perf_inc
+                    for neurons in range(40, 60):
+                        runNetwork(neurons)
+exit(1)

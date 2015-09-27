@@ -3,7 +3,7 @@ import statistics
 import numpy as np
 
 from helpers import helper as hp
-from analysis.plotter import Plotter
+from analysis.ploter import Plotter
 from model.MeasureModel import MeasureModel
 from vendor.tqdm.tqdm import *
 
