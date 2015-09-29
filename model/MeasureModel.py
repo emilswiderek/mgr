@@ -51,6 +51,7 @@ class MeasureModel(Model):
         result = super(MeasureModel, self).load()
         self.id = result[0]['id']
         self.max_breath_period = result[0]['max_breath_period']
+        self.min_breath_period = result[0]['min_breath_period']
         self.measure_type = result[0]['measure_type']
         self.breath_number = result[0]['breath_number']
         self.heart_period = result[0]['heart_period']

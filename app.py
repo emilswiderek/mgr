@@ -78,13 +78,37 @@ def run(option):
         analysis.setHeartPeriod(hp.heart_period)
         analysis.setResultsModel()
 
-        print("Restults analysis for "+str(hp.response_function))
+        print("Results analysis for "+str(hp.response_function))
 
         ExtortionAnalyzer = ExtortionSpectrumAnalyzer()
 
         ExtortionAnalyzer.analyze(analysis)
         del analysis
         del ExtortionAnalyzer
+
+        return
+
+    elif option == "analyze_one_measure":
+        hp.set_one_period(True)
+        analysis = MeasureModel()  # 1 analysis measure = many generation measures
+        analysis.where([('id', 16674, '=')])
+        analysis.load()
+        analysis.results.order("id", "ASC")
+        analysis.loadResults()
+        # for plotter:
+        hp.set_breath_period(analysis.breath_period)
+        hp.set_heart_period(analysis.heart_period)
+        hp.set_response_function(analysis.response_function)
+        hp.set_show_plots(False)
+        hp.calculateTtoT0()
+
+        print("Okres oddechu: "+str(hp.breath_period))
+        print("Okres rytmu serca: "+str(hp.heart_period))
+        print("Results analysis for "+str(analysis.response_function))
+
+        onePeriodAnalyzer = Analyzer(analysis.results.breath_phase, analysis.results.heart_phase)
+
+        onePeriodAnalyzer.analyze()
 
         return
 
@@ -204,8 +228,8 @@ def runNetwork(neurons):
     networkTest(False, False, nshp.get_storage_path()+filename)
 
 
-
-
+run("analyze_one_measure")
+exit(1)
 
 #v3
 

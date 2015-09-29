@@ -19,8 +19,5 @@ hp.set_max_breath_period(cp['generator']['max_breath_period'])
 hp.set_response_function('akselrod')
 hp.set_show_plots(True)
 
-import helpers.storageHelper as shp
-
-shp.init_results_subfolder()
 
 

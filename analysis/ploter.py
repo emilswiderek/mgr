@@ -4,10 +4,12 @@ import helpers.helper as hp
 import helpers.storageHelper as shp
 import helpers.networkStorageHelper as nshp
 
+
 class Plotter():
 
     def __init__(self):
         self.show = hp.show_plots
+        shp.init_results_subfolder()
 
     def map(self, previous_step, results):
         """
@@ -29,6 +31,7 @@ class Plotter():
             plt.show()
         else:
             plt.savefig(shp.get_storage_path()+"/map.png")
+            print("Zapis w: "+shp.get_storage_path())
 
     def heart_rate(self, timesteps, heart_rate):
         """
@@ -94,6 +97,7 @@ class Plotter():
         plt.xlabel("Czas 1 = 1 okres rytmu oddechu")
         plt.ylabel("Faza")
         plt.plot(timesteps, phase, 'b')
+        plt.gca().invert_xaxis()
         if self.show:
             plt.show()
         else:

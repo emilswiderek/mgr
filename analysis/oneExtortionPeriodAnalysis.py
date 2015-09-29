@@ -57,4 +57,4 @@ class Analyzer:
         plotter.heart_and_breath_rate(self.bind[0], self.bind[1], self.bind[2])
 
         # Faza rytmu serca w momencie wystąpienia oddechu
-        plotter.heart_when_breath(indexes, previous_step)
+        plotter.heart_when_breath(indexes.tolist(), previous_step)
