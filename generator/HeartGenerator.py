@@ -32,7 +32,7 @@ class HeartGenerator(Generator):
         else:
             self.phase_iterator += 1
 
-        if self.phase_iterator >= hp.heart_period:
+        if self.phase_iterator >= hp.heart_period or self.phase_iterator < 0:
                 self.phase_iterator = 0
 
         return self.phase_iterator
