@@ -44,7 +44,7 @@ class Plotter():
         plt.suptitle("Faza rytmu serca")
         plt.title("T/T0: " + str(hp.T_to_T0))
         plt.xlabel("Czas 1 = 1 okres rytmu oddechu")
-        plt.ylabel("Faza")
+        plt.ylabel("Faza rytmu serca")
         plt.xlim(0, 15)
         plt.grid(True)
         plt.plot(timesteps, heart_rate, 'b')
@@ -96,7 +96,7 @@ class Plotter():
         plt.xlim(len(timesteps)/10)
         plt.xlabel("Czas 1 = 1 okres rytmu oddechu")
         plt.ylabel("Faza")
-        plt.plot(timesteps, phase, 'b')
+        plt.plot(timesteps, phase, 'b.')
         plt.gca().invert_xaxis()
         if self.show:
             plt.show()

@@ -28,12 +28,12 @@ class HeartGenerator(Generator):
             return 0
 
         if self.breathPhase == hp.take_breath_in_phase:
-            self.phase_iterator += self.responseFunction.getResponse(self.phase_iterator)*hp.heart_period
+            self.phase_iterator += self.responseFunction.getResponse(self.phase_iterator) * hp.heart_period
         else:
             self.phase_iterator += 1
 
         if self.phase_iterator >= hp.heart_period or self.phase_iterator < 0:
-                self.phase_iterator = 0
+            self.phase_iterator = 0
 
         return self.phase_iterator
 
@@ -41,7 +41,7 @@ class HeartGenerator(Generator):
 
         self.process = []
 
-        for x in range(0, hp.breath_period*hp.number_of_breaths):
+        for x in range(0, hp.breath_period * hp.number_of_breaths):
             self.breathPhase = self.breathFunction[x]
             self.process.append(self.generate())
         return self.process
@@ -64,6 +64,6 @@ class HeartGenerator(Generator):
             'forwarding2': ForwardingFunction2(),
             'forwardingBis': ForwardingBisFunction(),
             'cosinus': CosinusFunction(),
-            'akselrodBis':AkselrodBisFunction(),
-            'halfSinusBis':HalfSinusBisFunction()
+            'akselrodBis': AkselrodBisFunction(),
+            'halfSinusBis': HalfSinusBisFunction()
         }[name]
