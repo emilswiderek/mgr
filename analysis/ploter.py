@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import helpers.helper as hp
 import helpers.storageHelper as shp
 import helpers.networkStorageHelper as nshp
-
+import numpy as np
 
 class Plotter():
 
@@ -146,7 +146,7 @@ class Plotter():
         else:
             plt.savefig(shp.get_storage_path()+"/map_and_fit.png")
 
-    def plot_division_by_x(self, x, y, sX, sY, vX, vY):
+    def plot_map_and_response_func(self, x, y, sX, sY):
         """
 
         :param x: X values
@@ -157,16 +157,17 @@ class Plotter():
         :param vY: Y map Y values divided by X
         :return:
         """
+        newY = np.array(sY) - np.array(sX)
         plt.clf()
-        line1, = plt.plot(x, y, 'b^', label="Dopasowanie/X")
-        line2, = plt.plot(sX, sY, 'g*', label="Krzywa odpowiedzi fazowej")
-        line3, = plt.plot(vX, vY, 'r.', label="Mapa/X")
-        plt.legend([line1, line2, line3])
+        plt.title(hp.response_function)
+        line2, = plt.plot(x, y, 'g*', label="Krzywa odpowiedzi fazowej")
+        line3, = plt.plot(sX, newY, 'r+', markersize=30, label="Mapa - X")
+        plt.legend([line2, line3])
 
         if self.show:
             plt.show()
         else:
-            plt.savefig(shp.get_storage_path()+"/division_by_x.png")
+            plt.savefig(shp.get_storage_path()+"/map_substraction.png")
 
     def plot_response_function_from_map(self,substraction, map, responseResult):
         """

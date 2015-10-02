@@ -8,6 +8,13 @@ from tests.modelTests.heartbeatsCollectionModelTest import HeartbeatsCollectionM
 from tests.networkTest import NetworkTest
 
 print("-----------\nTests begin")
+print("--- \nHeart generator testing: ")
+heartTest = hgt.TestHeartGen()
+heartTest.test_generate()
+heartTest.test_generateProcess()
+print("OK! \n---")
+
+
 print("--- \nNetwork testing:")
 netT = NetworkTest()
 netT.test_learning()
@@ -27,11 +34,7 @@ breathTest = bgt.TestBreathGen()
 breathTest.test_generate()
 breathTest.test_generateProcess()
 print("OK! \n---")
-print("--- \nHeart generator testing: ")
-heartTest = hgt.TestHeartGen()
-heartTest.test_generate()
 
-print("OK! \n---")
 
 response_function_tests.run_tests()
 

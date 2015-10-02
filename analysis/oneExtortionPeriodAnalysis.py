@@ -37,11 +37,11 @@ class Analyzer:
         return bind
 
     def analyze(self):
-        phaseAnalyzer = PhaseDifferences()
+
 
         storage = DataStorage()
 
-        indexes, results, previous_step = phaseAnalyzer.analyze(self.breath, self.heart)
+        indexes, results, previous_step = self.makeMap()
 
         plotter = Plotter()
 
@@ -58,3 +58,8 @@ class Analyzer:
 
         # Faza rytmu serca w momencie wystąpienia oddechu
         plotter.heart_when_breath(indexes.tolist(), previous_step)
+
+    def makeMap(self):
+        phaseAnalyzer = PhaseDifferences()
+        indexes, results, previous_step = phaseAnalyzer.analyze(self.breath, self.heart)
+        return indexes, results, previous_step

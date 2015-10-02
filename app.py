@@ -91,7 +91,7 @@ def run(option):
     elif option == "analyze_one_measure":
         hp.set_one_period(True)
         analysis = MeasureModel()  # 1 analysis measure = many generation measures
-        analysis.where([('id', 16674, '=')])
+        analysis.where([('id', 15185, '=')]) # id 9532
         analysis.load()
         analysis.results.order("id", "ASC")
         analysis.loadResults()
