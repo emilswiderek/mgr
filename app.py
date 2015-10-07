@@ -88,10 +88,10 @@ def run(option):
 
         return
 
-    elif option == "analyze_one_measure":
+    elif option == "plot_results_one_measure":
         hp.set_one_period(True)
         analysis = MeasureModel()  # 1 analysis measure = many generation measures
-        analysis.where([('id', 15185, '=')]) # id 9532
+        analysis.where([('id', 15050, '=')]) # id 9532
         analysis.load()
         analysis.results.order("id", "ASC")
         analysis.loadResults()
@@ -111,6 +111,22 @@ def run(option):
         onePeriodAnalyzer.analyze()
 
         return
+    elif option == "plot_results_ext":
+        db = Database()
+        hp.set_show_plots(False)
+        hp.set_one_period(False)
+        plotter = Plotter()
+        ids = db.execute("SELECT id FROM "+db.db_name+"."+MeasureModel.TABLE_NAME+" WHERE measure_type = '"+MeasureModel.TYPE_ANALYZE_EXTORTION+"'")
+        for id in tqdm(ids):
+            analysis = MeasureModel()
+            analysis.where([('id', id['id'], '=')])
+            analysis.load()
+            analysis.loadResults()
+            hp.set_max_breath_period(analysis.max_breath_period)
+            hp.set_min_breath_period(analysis.min_breath_period)
+            hp.set_heart_period(analysis.heart_period)
+            hp.set_response_function(analysis.response_function)
+            plotter.plot_rr_sd(analysis.results.breath_period, analysis.results.mean_rr, analysis.results.stdev)
 
 def multiGen():
     #multi generation happens here:
@@ -228,7 +244,7 @@ def runNetwork(neurons):
     networkTest(False, False, nshp.get_storage_path()+filename)
 
 
-run("analyze_one_measure")
+run("plot_results_ext")
 exit(1)
 
 #v3

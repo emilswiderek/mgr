@@ -20,7 +20,7 @@ class TestAkselrodFunction(unittest.TestCase):
         spectrum_normalised = []
 
         for x in spectrum:
-            spectrum_response.append(response_function.getResponse(x)/hp.heart_period)
+            spectrum_response.append(response_function.getResponse(x))
             spectrum_normalised.append(x/hp.heart_period)
 
         plt.title("Akselrod")

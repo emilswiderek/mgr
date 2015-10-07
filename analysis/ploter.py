@@ -5,6 +5,7 @@ import helpers.storageHelper as shp
 import helpers.networkStorageHelper as nshp
 import numpy as np
 
+
 class Plotter():
 
     def __init__(self):
@@ -104,6 +105,7 @@ class Plotter():
             plt.savefig(shp.get_storage_path()+"/heart_when_breath.png")
 
     def plot_rr_sd(self, breath, av, sd):
+        shp.init_results_subfolder()
         plt.clf()
         plt.figure(1)
 
@@ -162,6 +164,8 @@ class Plotter():
         plt.title(hp.response_function)
         line2, = plt.plot(x, y, 'g*', label="Krzywa odpowiedzi fazowej")
         line3, = plt.plot(sX, newY, 'r+', markersize=30, label="Mapa - X")
+        plt.xlabel("Faza rytmu serca")
+        plt.ylabel("Zmiana fazy rytmu serca")
         plt.legend([line2, line3])
 
         if self.show:

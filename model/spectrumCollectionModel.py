@@ -29,11 +29,13 @@ class SpectrumCollectionModel(Model):
         self.measure_id = []
         self.mean_rr = []
         self.stdev = []
+        self.breath_period = []
         for res in result:
             self.id.append(res['id'])
             self.measure_id.append(res['measure_id'])
             self.stdev.append(res['stdev'])
             self.mean_rr.append(res['mean_rr'])
+            self.breath_period.append(res['breath_period'])
 
         return result
 
