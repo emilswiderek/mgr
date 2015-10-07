@@ -110,6 +110,7 @@ class Plotter():
         plt.figure(1)
 
         plt.subplot(211)
+        plt.ylim(0, max(av) + max(sd))
         plt.suptitle("Odchylenie std")
         plt.title("Dla okresu rytmu serca: "+str(hp.heart_period))
         plt.grid(True)
