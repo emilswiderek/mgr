@@ -119,6 +119,7 @@ class Plotter():
 
         plt.subplot(212)
         plt.grid(True)
+        plt.ylim(0, 50)
         plt.xlabel("Okres oddechu")
         plt.ylabel("Odchylenie std")
         plt.bar(breath, sd)
@@ -210,6 +211,5 @@ class Plotter():
         if self.show:
             plt.show()
         else:
-            nshp.init_results_subfolder()
-            filename = "net_ep"+str(hp.train_epochs)+"_g"+str(hp.train_goal)+"_lr"+str(hp.train_lr)+"_a"+str(hp.train_adapt)+"_lr_inc"+str(hp.train_lr_inc)+"_lr_dec"+str(hp.train_lr_dec)+"_mxpi"+str(hp.train_max_perf_inc)+".png"
-            plt.savefig(nshp.get_storage_path()+respF+filename)
+            filename = "test_net_ep"+str(hp.train_epochs)+"_g"+str(hp.train_goal)+"_lr"+str(hp.train_lr)+"_a"+str(hp.train_adapt)+"_lr_inc"+str(hp.train_lr_inc)+"_lr_dec"+str(hp.train_lr_dec)+"_mxpi"+str(hp.train_max_perf_inc)+".png"
+            plt.savefig("results/tests/"+respF+filename)

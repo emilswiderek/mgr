@@ -1,7 +1,7 @@
 # default values overridden in init file
 
 number_of_breaths = 10
-take_breath_in_phase = 1  # notice: phase is float not integer
+take_breath_in_phase = 1
 T_to_T0 = 1
 heart_period = 0
 breath_period = 1000
